@@ -2,6 +2,7 @@ package fr.tetelie.practice;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import fr.tetelie.practice.object.PlayerManager;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 
 public class Practice extends JavaPlugin {
 
-    private static @Getter Practice instance;
+    private @Getter static Practice instance;
 
     public Connection connection;
 
@@ -53,6 +54,5 @@ public class Practice extends JavaPlugin {
         }
         System.out.println("[Practice] Successfully connected to the SQL database.");
     }
-
 
 }
