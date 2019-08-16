@@ -1,8 +1,6 @@
-package fr.tetelie.practice.object;
+package fr.tetelie.practice.player;
 
-import fr.tetelie.practice.Practice;
-import fr.tetelie.practice.ladder.NoDebuff;
-import fr.tetelie.practice.uti.Kit;
+import fr.tetelie.practice.inventory.Kit;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;

@@ -1,4 +1,4 @@
-package fr.tetelie.practice.uti;
+package fr.tetelie.practice.ladder;
 
 import org.bukkit.Material;
 

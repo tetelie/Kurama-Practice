@@ -1,9 +1,8 @@
-package fr.tetelie.practice.ladder;
+package fr.tetelie.practice.ladder.ladders;
 
-import fr.tetelie.practice.uti.Kit;
-import fr.tetelie.practice.uti.Ladder;
+import fr.tetelie.practice.ladder.Ladder;
+import fr.tetelie.practice.inventory.Kit;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class NoDebuff extends Ladder implements Kit {

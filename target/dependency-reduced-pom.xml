@@ -52,7 +52,7 @@
           <relocations>
             <relocation>
               <pattern>co.aikar.idb</pattern>
-              <shadedPattern>[PACKAGE].idb</shadedPattern>
+              <shadedPattern>fr.tetelie.practice.idb</shadedPattern>
             </relocation>
           </relocations>
         </configuration>

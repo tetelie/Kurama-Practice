@@ -1,7 +1,7 @@
-package fr.tetelie.practice.defaultInventory;
+package fr.tetelie.practice.inventory.inventories;
 
-import fr.tetelie.practice.uti.ItemBuilder;
-import fr.tetelie.practice.uti.Kit;
+import fr.tetelie.practice.util.ItemBuilder;
+import fr.tetelie.practice.inventory.Kit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

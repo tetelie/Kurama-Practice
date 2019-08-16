@@ -1,1 +1,8 @@
+fr\tetelie\practice\inventory\Kit.class
+fr\tetelie\practice\util\ItemBuilder.class
+fr\tetelie\practice\mysql\PracticeDB.class
+fr\tetelie\practice\ladder\ladders\NoDebuff.class
 fr\tetelie\practice\Practice.class
+fr\tetelie\practice\inventory\inventories\SpawnInventory.class
+fr\tetelie\practice\player\PlayerManager.class
+fr\tetelie\practice\ladder\Ladder.class

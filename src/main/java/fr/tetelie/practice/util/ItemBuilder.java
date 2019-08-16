@@ -1,4 +1,4 @@
-package fr.tetelie.practice.uti;
+package fr.tetelie.practice.util;
 
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
