@@ -9,13 +9,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.UUID;
 
 public @Getter @Setter class PlayerManager {
 
-    private @Getter static List<PlayerManager> all;
+    private @Getter static Map<UUID, PlayerManager> all;
 
     private UUID uuid;
     private String name;
@@ -24,7 +24,7 @@ public @Getter @Setter class PlayerManager {
 
     static
     {
-        all = new ArrayList<>();
+        all = new HashMap<>();
     }
 
     public PlayerManager(UUID uuid, String name)
@@ -103,7 +103,7 @@ public @Getter @Setter class PlayerManager {
 
     public static PlayerManager getPlayerManager(UUID uuid)
     {
-        return all.stream().filter(target -> target.getUuid().equals(uuid)).findFirst().orElse(null);
+        return all.get(uuid);
     }
 
     public void destroy()
