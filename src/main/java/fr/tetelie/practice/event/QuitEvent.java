@@ -12,7 +12,7 @@ public class QuitEvent implements Listener {
     public void onQuit(PlayerQuitEvent e)
     {
         Player player = e.getPlayer();
-        PlayerManager.getPlayerManager(player.getUniqueId()).destroy();
+        PlayerManager.getPlayerManagers().get(player.getUniqueId()).destroy();
     }
 
 }

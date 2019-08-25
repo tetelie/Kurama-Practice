@@ -1,5 +1,6 @@
 package fr.tetelie.practice.event;
 
+import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.player.PlayerManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,9 @@ public class JoinEvent implements Listener {
     {
         Player player = e.getPlayer();
         PlayerManager playerManager = new PlayerManager(player.getUniqueId(), player.getName());
+        playerManager.reset(player);
+        playerManager.teleport(player, Practice.getInstance().spawn);
+        playerManager.sendKit(Practice.getInstance().spawnKit);
     }
 
 }

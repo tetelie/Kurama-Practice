@@ -6,6 +6,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import fr.tetelie.practice.command.PracticeCommand;
 import fr.tetelie.practice.event.JoinEvent;
 import fr.tetelie.practice.event.QuitEvent;
+import fr.tetelie.practice.inventory.Kit;
+import fr.tetelie.practice.inventory.inventories.SpawnInventory;
 import fr.tetelie.practice.mysql.PracticeDB;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
@@ -21,11 +23,9 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-public @Getter
-class Practice extends JavaPlugin {
+public @Getter class Practice extends JavaPlugin {
 
-    @Getter
-    static Practice instance;
+    @Getter static Practice instance;
 
     public Connection connection;
     public String prefix;
@@ -38,6 +38,9 @@ class Practice extends JavaPlugin {
 
     // Locations
     public LocationHelper spawn = new LocationHelper("spawn");
+
+    // Kits
+    public Kit spawnKit = new SpawnInventory();
 
     @Override
     public void onEnable() {
@@ -89,9 +92,8 @@ class Practice extends JavaPlugin {
 
 
     private void registerLocation() {
-        for(LocationHelper locationHelper : LocationHelper.getAll())
-        {
-            String message = locationHelper.load() ? prefix+"§eThe location §6§r" + locationHelper.getName() + " §r§eis successfully registered!" : prefix+"§cThe location §4§r" + locationHelper.getName() + " §r§cis not registered!";
+        for (LocationHelper locationHelper : LocationHelper.getAll()) {
+            String message = locationHelper.load() ? prefix + "§eThe location §6§r" + locationHelper.getName() + " §r§eis successfully registered!" : prefix + "§cThe location §4§r" + locationHelper.getName() + " §r§cis not registered!";
             this.getServer().getConsoleSender().sendMessage(message);
         }
     }
