@@ -3,35 +3,51 @@ package fr.tetelie.practice;
 import co.aikar.idb.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import fr.tetelie.practice.command.PracticeCommand;
 import fr.tetelie.practice.event.JoinEvent;
 import fr.tetelie.practice.event.QuitEvent;
 import fr.tetelie.practice.mysql.PracticeDB;
+import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 
-public @Getter class Practice extends JavaPlugin {
+public @Getter
+class Practice extends JavaPlugin {
 
-    private @Getter static Practice instance;
+    @Getter
+    static Practice instance;
 
     public Connection connection;
     public String prefix;
     public PracticeDB practiceDB = new PracticeDB();
 
+    public File locationFile;
+    public YamlConfiguration locationConfig;
+
     private String configPath;
+
+    // Locations
+    public LocationHelper spawn = new LocationHelper("spawn");
 
     @Override
     public void onEnable() {
         instance = this;
         prefix = "[" + this.getName() + "] ";
-        configPath = getDataFolder() + "\\hikari.properties";
-        saveResource("hikari.properties", false);
+        registerResource();
         registerEvent();
         registerCommand();
+        registerFile();
+        registerLocation();
         // Database start
         setupHikariCP();
         setupDatabase();
@@ -44,10 +60,24 @@ public @Getter class Practice extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        // save locations
+        LocationHelper.getAll().forEach(locationHelper -> locationHelper.save());
+        try {
+            locationConfig.save(locationFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void registerResource() {
+        configPath = getDataFolder() + "\\hikari.properties";
+        saveResource("hikari.properties", false);
+
+        saveResource("locations.yml", false);
     }
 
     private void registerCommand() {
-
+        getCommand("practice").setExecutor(new PracticeCommand());
     }
 
     private void registerEvent() {
@@ -57,11 +87,25 @@ public @Getter class Practice extends JavaPlugin {
         ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 
+
+    private void registerLocation() {
+        for(LocationHelper locationHelper : LocationHelper.getAll())
+        {
+            String message = locationHelper.load() ? prefix+"§eThe location §6§r" + locationHelper.getName() + " §r§eis successfully registered!" : prefix+"§cThe location §4§r" + locationHelper.getName() + " §r§cis not registered!";
+            this.getServer().getConsoleSender().sendMessage(message);
+        }
+    }
+
+    private void registerFile() {
+        locationFile = new File(getDataFolder() + "\\locations.yml");
+        locationConfig = YamlConfiguration.loadConfiguration(locationFile);
+    }
+
     private void setupDatabase() {
         if (connection != null) {
             practiceDB.createPlayerManagerTable();
         } else {
-            System.out.println(prefix+"WARNING enter valid database information ("+configPath+") \n You will not be able to access many features");
+            System.out.println(prefix + "WARNING enter valid database information (" + configPath + ") \n You will not be able to access many features");
         }
     }
 

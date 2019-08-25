@@ -2,3 +2,6 @@ name: RenaPractice
 version: dev
 author: tetelie
 main: fr.tetelie.practice.Practice
+commands:
+  practice:
+    permission: practice.admin
