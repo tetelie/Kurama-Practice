@@ -2,7 +2,10 @@ package fr.tetelie.practice.player;
 
 import co.aikar.idb.DB;
 import fr.tetelie.practice.Practice;
+import fr.tetelie.practice.historic.HistoricElement;
+import fr.tetelie.practice.historic.HistoricManager;
 import fr.tetelie.practice.inventory.Kit;
+import fr.tetelie.practice.util.ItemBuilder;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +28,8 @@ public @Getter @Setter class PlayerManager {
     private String name;
     private int[] settings = new int[3];
     private int[] elos = new int[1];
+    private PlayerSatus playerSatus = PlayerSatus.FREE;
+    private HistoricManager historicManager = new HistoricManager();
 
     static
     {
@@ -36,6 +41,7 @@ public @Getter @Setter class PlayerManager {
         this.uuid = uuid;
         this.name = name;
         update();
+        historicManager.addElement(new HistoricElement(new ItemBuilder(Material.PAPER).setName("§aTest").toItemStack(), "one line", "another line", "final line"));
 
         playerManagers.put(uuid, this);
     }
@@ -134,7 +140,7 @@ public @Getter @Setter class PlayerManager {
         player.setLevel(0);
         player.setFireTicks(0);
         player.setSaturation(10);
-        player.setGameMode(GameMode.SURVIVAL);
+        player.setGameMode(GameMode.ADVENTURE);
         player.setAllowFlight(false);
         player.setFlying(false);
     }

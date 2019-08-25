@@ -4,16 +4,23 @@ import co.aikar.idb.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import fr.tetelie.practice.command.PracticeCommand;
+import fr.tetelie.practice.event.ClickEvent;
+import fr.tetelie.practice.event.InteractEvent;
 import fr.tetelie.practice.event.JoinEvent;
 import fr.tetelie.practice.event.QuitEvent;
+import fr.tetelie.practice.gui.Gui;
+import fr.tetelie.practice.gui.guis.FightGui;
+import fr.tetelie.practice.inventory.FightInventory;
 import fr.tetelie.practice.inventory.Kit;
 import fr.tetelie.practice.inventory.inventories.SpawnInventory;
+import fr.tetelie.practice.ladder.Ladder;
+import fr.tetelie.practice.ladder.ladders.NoDebuff;
 import fr.tetelie.practice.mysql.PracticeDB;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -36,25 +43,38 @@ public @Getter class Practice extends JavaPlugin {
 
     private String configPath;
 
+    public List<Ladder> ladders = Arrays.asList(new NoDebuff());
+
     // Locations
     public LocationHelper spawn = new LocationHelper("spawn");
 
     // Kits
     public Kit spawnKit = new SpawnInventory();
 
+    // Guis
+    public Gui fightGui = new FightGui();
+
+    //Thread
+    public Thread fightInventory;
+
+    // Inventories
+    public Inventory normalFight;
+    public Inventory competitiveFight;
+
     @Override
     public void onEnable() {
         instance = this;
         prefix = "[" + this.getName() + "] ";
         registerResource();
-        registerEvent();
-        registerCommand();
-        registerFile();
-        registerLocation();
         // Database start
         setupHikariCP();
         setupDatabase();
         // Database end
+        registerEvent();
+        registerCommand();
+        registerFile();
+        registerLocation();
+        registerThread();
     }
 
     @Override
@@ -70,6 +90,8 @@ public @Getter class Practice extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // stop thread
+        fightInventory.stop();
     }
 
     private void registerResource() {
@@ -86,7 +108,9 @@ public @Getter class Practice extends JavaPlugin {
     private void registerEvent() {
         Arrays.asList(
                 new JoinEvent(),
-                new QuitEvent()
+                new QuitEvent(),
+                new InteractEvent(),
+                new ClickEvent()
         ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 
@@ -101,6 +125,12 @@ public @Getter class Practice extends JavaPlugin {
     private void registerFile() {
         locationFile = new File(getDataFolder() + "\\locations.yml");
         locationConfig = YamlConfiguration.loadConfiguration(locationFile);
+    }
+
+    private void registerThread()
+    {
+        fightInventory = new Thread(new FightInventory());
+        fightInventory.start();
     }
 
     private void setupDatabase() {
