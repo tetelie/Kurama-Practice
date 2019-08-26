@@ -14,9 +14,7 @@ public class JoinEvent implements Listener {
     {
         Player player = e.getPlayer();
         PlayerManager playerManager = new PlayerManager(player.getUniqueId(), player.getName());
-        playerManager.reset(player);
-        playerManager.teleport(player, Practice.getInstance().spawn);
-        playerManager.sendKit(Practice.getInstance().spawnKit);
+        playerManager.spawnPlayer(player);
     }
 
 }

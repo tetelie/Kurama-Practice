@@ -29,9 +29,6 @@ public class InteractEvent implements Listener {
                     if(current.getType() == Material.WOOD_SWORD && current.getItemMeta().getDisplayName().equals("§6§lFight §r§f(Right click)"))
                     {
                         player.openInventory(Practice.getInstance().fightGui.inventory());
-                    }else if(current.getType() == Material.CAULDRON_ITEM && current.getItemMeta().getDisplayName().equals("§6§lHistoric §r§f(Right click)"))
-                    {
-                        player.openInventory(playerManager.getHistoricManager().getHistoricInventory(player, 1));
                     }
                 }
             }

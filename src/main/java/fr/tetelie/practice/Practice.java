@@ -95,7 +95,7 @@ public @Getter class Practice extends JavaPlugin {
     }
 
     private void registerResource() {
-        configPath = getDataFolder() + "\\hikari.properties";
+        configPath = getDataFolder() + "/hikari.properties";
         saveResource("hikari.properties", false);
 
         saveResource("locations.yml", false);
@@ -123,7 +123,7 @@ public @Getter class Practice extends JavaPlugin {
     }
 
     private void registerFile() {
-        locationFile = new File(getDataFolder() + "\\locations.yml");
+        locationFile = new File(getDataFolder() + "/locations.yml");
         locationConfig = YamlConfiguration.loadConfiguration(locationFile);
     }
 

@@ -2,10 +2,8 @@ package fr.tetelie.practice.player;
 
 import co.aikar.idb.DB;
 import fr.tetelie.practice.Practice;
-import fr.tetelie.practice.historic.HistoricElement;
 import fr.tetelie.practice.historic.HistoricManager;
 import fr.tetelie.practice.inventory.Kit;
-import fr.tetelie.practice.util.ItemBuilder;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +27,7 @@ public @Getter @Setter class PlayerManager {
     private int[] settings = new int[3];
     private int[] elos = new int[1];
     private PlayerSatus playerSatus = PlayerSatus.FREE;
-    private HistoricManager historicManager = new HistoricManager();
+    private HistoricManager historic = new HistoricManager("§6§lHistoric §f(Right click)", "§eRena Team");
 
     static
     {
@@ -41,7 +39,6 @@ public @Getter @Setter class PlayerManager {
         this.uuid = uuid;
         this.name = name;
         update();
-        historicManager.addElement(new HistoricElement(new ItemBuilder(Material.PAPER).setName("§aTest").toItemStack(), "one line", "another line", "final line"));
 
         playerManagers.put(uuid, this);
     }
@@ -109,6 +106,14 @@ public @Getter @Setter class PlayerManager {
         player.getInventory().setContents(kit.content());
         player.getInventory().setArmorContents(kit.armor());
         player.updateInventory();
+    }
+
+    public void spawnPlayer(Player player)
+    {
+        teleport(player, Practice.getInstance().spawn);
+        reset(player);
+        sendKit(Practice.getInstance().spawnKit);
+        historic.give(player, 3);
     }
 
     public void teleport(Player player, LocationHelper locationHelper)
