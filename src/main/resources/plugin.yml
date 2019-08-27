@@ -5,3 +5,5 @@ main: fr.tetelie.practice.Practice
 commands:
   practice:
     permission: practice.admin
+  arena:
+    permission: practice.arena

@@ -31,17 +31,18 @@
     </repositories>
 
     <dependencies>
-         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
 
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>2.4.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>fr.tetelie</groupId>
+            <artifactId>MinecraftServer</artifactId>
+            <version>1.7.10-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

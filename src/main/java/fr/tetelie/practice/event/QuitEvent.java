@@ -13,6 +13,7 @@ public class QuitEvent implements Listener {
     {
         Player player = e.getPlayer();
         PlayerManager.getPlayerManagers().get(player.getUniqueId()).destroy();
+
     }
 
 }

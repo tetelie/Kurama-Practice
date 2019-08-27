@@ -2,8 +2,10 @@ package fr.tetelie.practice.player;
 
 import co.aikar.idb.DB;
 import fr.tetelie.practice.Practice;
+import fr.tetelie.practice.fight.FightManager;
 import fr.tetelie.practice.historic.HistoricManager;
 import fr.tetelie.practice.inventory.Kit;
+import fr.tetelie.practice.match.MatchType;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +31,10 @@ public @Getter @Setter class PlayerManager {
     private PlayerSatus playerSatus = PlayerSatus.FREE;
     private HistoricManager historic = new HistoricManager("§6§lHistoric §f(Right click)", "§eRena Team");
 
+    // Queue
+    private String ladder;
+    private MatchType matchType;
+
     static
     {
         playerManagers = new HashMap<>();
@@ -38,6 +44,7 @@ public @Getter @Setter class PlayerManager {
     {
         this.uuid = uuid;
         this.name = name;
+
         update();
 
         playerManagers.put(uuid, this);
@@ -108,14 +115,6 @@ public @Getter @Setter class PlayerManager {
         player.updateInventory();
     }
 
-    public void spawnPlayer(Player player)
-    {
-        teleport(player, Practice.getInstance().spawn);
-        reset(player);
-        sendKit(Practice.getInstance().spawnKit);
-        historic.give(player, 3);
-    }
-
     public void teleport(Player player, LocationHelper locationHelper)
     {
         if(locationHelper == null || locationHelper.getLocation() == null)
@@ -150,8 +149,28 @@ public @Getter @Setter class PlayerManager {
         player.setFlying(false);
     }
 
+    public void queue(String ladder, MatchType matchType)
+    {
+        this.ladder = ladder;
+        this.matchType = matchType;
+        Practice.getInstance().fight.get(ladder).getQueuePlayer().put(matchType, uuid);
+    }
+
+    public void leaveQueue()
+    {
+        FightManager fightManager = Practice.getInstance().fight.get(ladder);
+        if(fightManager.getQueuePlayer().get(matchType) == this.uuid)
+        {
+            fightManager.getQueuePlayer().put(matchType, null);
+            this.ladder = null;
+            this.matchType = null;
+        }
+
+    }
+
     public void destroy()
     {
+        leaveQueue();
         save(); // save all local data in database
         playerManagers.remove(uuid);
     }

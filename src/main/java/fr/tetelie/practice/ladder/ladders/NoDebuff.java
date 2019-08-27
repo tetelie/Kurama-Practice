@@ -14,7 +14,7 @@ public class NoDebuff extends Ladder implements Kit {
 
     @Override
     public String displayName() {
-        return "§c§lNoDebuff";
+        return "§6§lNoDebuff";
     }
 
     @Override

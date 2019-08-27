@@ -1,5 +1,6 @@
 package fr.tetelie.practice.ladder;
 
+import fr.tetelie.practice.Practice;
 import org.bukkit.Material;
 
 public abstract class Ladder {
