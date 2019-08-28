@@ -24,6 +24,8 @@ import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -88,7 +90,9 @@ public @Getter class Practice extends JavaPlugin {
         registerCommand();
         registerFile();
         registerLocation();
+        registerArena();
         registerThread();
+        sendCreditMessage();
     }
 
     @Override
@@ -149,6 +153,27 @@ public @Getter class Practice extends JavaPlugin {
         arenaConfig = YamlConfiguration.loadConfiguration(arenaFile);
     }
 
+    private void registerArena()
+    {
+        final ConfigurationSection cs = arenaConfig.getConfigurationSection("arena");
+        if (cs != null) {
+            for (final String s : cs.getKeys(false)) {
+                if (s != null) {
+                    final ConfigurationSection cs2 = cs.getConfigurationSection(s);
+                    if (cs2 == null) {
+                        continue;
+                    }
+
+                    ArenaManager arena = new ArenaManager(cs2.getName());
+                    arena.load();
+
+
+                    this.getServer().getConsoleSender().sendMessage(prefix + ChatColor.GOLD + "Registered Arena "+ChatColor.GRAY+"-> Name "+ChatColor.YELLOW+arena.getName() +ChatColor.GRAY +" -> Type "+ChatColor.YELLOW+arena.getArenaType().toString());
+                }
+            }
+        }
+    }
+
     private void registerThread()
     {
         fightInventory = new Thread(new FightInventory());
@@ -176,6 +201,20 @@ public @Getter class Practice extends JavaPlugin {
             e.printStackTrace();
         }
         System.out.println(prefix + "Successfully connected to the SQL database.");
+    }
+
+    private void sendCreditMessage()
+    {
+        String[] message = new String[]{
+                ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "-----------------------------",
+                " ",
+                ChatColor.GOLD + "Rena Practice Enable ^-^",
+                " ",
+                ChatColor.GOLD + "Author " + ChatColor.GRAY + "-> " + ChatColor.YELLOW + "tetelie *",
+                " ",
+                ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "-----------------------------"
+        };
+        this.getServer().getConsoleSender().sendMessage(message);
     }
 
 }

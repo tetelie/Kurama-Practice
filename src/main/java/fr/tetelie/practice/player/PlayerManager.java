@@ -159,13 +159,12 @@ public @Getter @Setter class PlayerManager {
     public void leaveQueue()
     {
         FightManager fightManager = Practice.getInstance().fight.get(ladder);
-        if(fightManager.getQueuePlayer().get(matchType) == this.uuid)
+        if(fightManager != null && fightManager.getQueuePlayer().containsKey(matchType) && fightManager.getQueuePlayer().get(matchType) != null && fightManager.getQueuePlayer().get(matchType) == this.uuid)
         {
             fightManager.getQueuePlayer().put(matchType, null);
             this.ladder = null;
             this.matchType = null;
         }
-
     }
 
     public void destroy()

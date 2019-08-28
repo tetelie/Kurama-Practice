@@ -51,7 +51,7 @@ public @Getter @Setter class LocationHelper {
 
     public boolean load() {
         if (Practice.getInstance().locationConfig.get("locations." + name) == null) return false;
-        System.out.println(Practice.getInstance().locationConfig.get("locations."+name));
+        //System.out.println(Practice.getInstance().locationConfig.get("locations."+name));
         String[] part = Practice.getInstance().locationConfig.getString("locations." + name).split(":");
         this.location = new Location(Bukkit.getWorld(part[0]), Double.parseDouble(part[1]), Double.parseDouble(part[2]), Double.parseDouble(part[3]), Float.parseFloat(part[4]), Float.parseFloat(part[5]));
         return true;
