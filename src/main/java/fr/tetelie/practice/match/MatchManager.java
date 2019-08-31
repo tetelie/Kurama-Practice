@@ -4,13 +4,22 @@ import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.arena.ArenaManager;
 import fr.tetelie.practice.fight.FightType;
 import fr.tetelie.practice.inventory.Kit;
+import fr.tetelie.practice.inventory.MatchPreviewInventory;
 import fr.tetelie.practice.ladder.Ladder;
 import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.player.PlayerSatus;
 import lombok.Getter;
 import lombok.Setter;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
@@ -19,10 +28,11 @@ public class MatchManager {
 
     private UUID uuid1;
     private UUID uuid2;
-    private @Setter MatchStatus matchStatus = MatchStatus.PLAYING;
+    private @Setter MatchStatus matchStatus = MatchStatus.STARTING;
     private FightType fightType;
     private ArenaManager arena;
     private Ladder ladder;
+    private int startTimer = 5;
 
     public MatchManager(MatchType matchType, UUID uuid1, UUID uuid2, FightType fightType, String ladderDisplayName){
         this.uuid1 = uuid1;
@@ -38,6 +48,8 @@ public class MatchManager {
         this.arena = arena;
         playerManager1.leaveQueue();
         Bukkit.broadcastMessage("Create new match: matchtype: " + matchType.toString() +" fighttype:"+fightType.toString()+" ladder:"+ladder.name()+" arena:" + arena.getName());
+        playerManager1.removePreviewInventory();
+        playerManager2.removePreviewInventory();
         playerManager1.setPlayerSatus(PlayerSatus.FIGHT);
         playerManager2.setPlayerSatus(PlayerSatus.FIGHT);
         player1.teleport(arena.getLoc1());
@@ -51,6 +63,30 @@ public class MatchManager {
         Practice.getInstance().fight.get(ladderDisplayName).getFightPlayer().get(fightType).add(this);
         playerManager1.setCurrentFight(this);
         playerManager2.setCurrentFight(this);
+
+        new BukkitRunnable() {
+            public void run() {
+                if (matchStatus == MatchStatus.STARTING) {
+                    if (startTimer == 0) {
+                        player1.sendMessage("§6Duel starting against §e" + player2.getName());
+                        player2.sendMessage("§6Duel starting against §e" + player1.getName());
+                        player1.playSound(player1.getLocation(), Sound.FIREWORK_LARGE_BLAST, 1f, 1f);
+                        player2.playSound(player2.getLocation(), Sound.FIREWORK_LARGE_BLAST, 1f, 1f);
+                        matchStatus = MatchStatus.PLAYING;
+                        // set match start millis
+                        this.cancel();
+                    } else {
+                        sendGlobalMessage("§6Duel starting in §7" + startTimer + "§6 second(s)", player1, player2);
+                        player1.playSound(player1.getLocation(), Sound.NOTE_PIANO, 1f, 1f);
+                        player2.playSound(player2.getLocation(), Sound.NOTE_PIANO, 1f, 1f);
+                        startTimer--;
+                    }
+                } else {
+                    this.cancel();
+                }
+            }
+        }.runTaskTimer(Practice.getInstance(), 20L, 20L);
+
     }
 
     public void end(MatchEndCause cause, Player player, PlayerManager playerManager)
@@ -58,24 +94,55 @@ public class MatchManager {
         UUID uuid = this.getUuid2() == player.getUniqueId() ? this.getUuid1() : this.getUuid2();
         Player player2 = Bukkit.getPlayer(uuid);
         PlayerManager playerManager2 = PlayerManager.getPlayerManagers().get(uuid);
+        new MatchPreviewInventory(player2);
         player2.getInventory().clear();
         this.setMatchStatus(MatchStatus.FINISHING);
         if(cause == MatchEndCause.KILL) {
+            new MatchPreviewInventory(player);
             player.teleport(player2.getLocation());
-            if(player.getKiller() != null) sendGlobalMessage("§6"+player.getName()+" has been slain by " + player.getKiller().getName(), player, player2);
+            if(player.getKiller() != null) sendGlobalMessage("§e"+player.getName()+" §6has been slain by §e" + player.getKiller().getName(), player, player2);
         } else {
             player2.sendMessage("§6Your opponent has leave the server!");
         }
         Bukkit.getScheduler().runTaskLater(Practice.getInstance(), (Runnable) new Runnable() {
             public void run() {
                 destroy();
-                playerManager2.reset(player2);
+
+                String[] resultMessage = new String[]{
+                    "§7§m----------------------------",
+                    "§6Winner§7: §a" + player2.getName(),
+                    "§6Loser§7: §c" + player.getName(),
+                    "§7§m----------------------------"
+                };
+
+                // clickable message soon
+                //String inventoriesMessage = "§6Inventories§7(click to view)§6: §e" + player2.getName()+"§7, §e"+player.getName();
+
+                TextComponent inventoriesMessage = new TextComponent("§6Inventories§7(click to view)§6: §e");
+                TextComponent name1 = new TextComponent("§e"+player2.getName());
+                name1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/inventory " + player2.getUniqueId()));
+                name1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eClick to view this inventory.").create()));
+                inventoriesMessage.addExtra(name1);
+                inventoriesMessage.addExtra("§7, §e");
+                TextComponent name2 = new TextComponent("§e"+player.getName());
+                name2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/inventory " + player.getUniqueId()));
+                name2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eClick to view this inventory.").create()));
+                inventoriesMessage.addExtra(name2);
+
+                sendGlobalMessage(resultMessage, player2);
+
+                //replace soon
+                sendGlobalMessage(inventoriesMessage, player2);
+
+                playerManager2.reset(player2, GameMode.SURVIVAL);
                 playerManager2.teleport(player2, Practice.getInstance().spawn);
                 playerManager2.sendKit(Practice.getInstance().spawnKit);
                 playerManager2.setPlayerSatus(PlayerSatus.FREE);
                 if(cause == MatchEndCause.KILL)
                 {
-                    playerManager.reset(player);
+                    sendGlobalMessage(resultMessage, player);
+                    sendGlobalMessage(inventoriesMessage, player);
+                    playerManager.reset(player, GameMode.SURVIVAL);
                     playerManager.teleport(player, Practice.getInstance().spawn);
                     playerManager.sendKit(Practice.getInstance().spawnKit);
                     playerManager.setPlayerSatus(PlayerSatus.FREE);
@@ -89,6 +156,8 @@ public class MatchManager {
         if(Practice.getInstance().fight.get(ladder.displayName()).getFightPlayer().get(fightType).contains(this)) Practice.getInstance().fight.get(ladder.displayName()).getFightPlayer().get(fightType).remove(this);
     }
 
-    public void sendGlobalMessage(String message, Player... players) { for(Player player : players) player.sendMessage(message); }
+    private void sendGlobalMessage(String message, Player... players) { for(Player player : players) player.sendMessage(message); }
+    private void sendGlobalMessage(String[] message, Player... players) { for(Player player : players) player.sendMessage(message); }
+    private void sendGlobalMessage(TextComponent message, Player... players) { for(Player player : players) player.spigot().sendMessage(message); }
 
 }

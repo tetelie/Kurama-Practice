@@ -7,3 +7,6 @@ commands:
     permission: practice.admin
   arena:
     permission: practice.arena
+  inventory:
+  build:
+    permission: practice.build

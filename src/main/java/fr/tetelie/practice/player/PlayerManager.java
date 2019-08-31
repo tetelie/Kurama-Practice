@@ -127,7 +127,7 @@ public @Getter @Setter class PlayerManager {
         }
     }
 
-    public void reset(Player player) {
+    public void reset(Player player, GameMode gameMode) {
         player.getInventory().clear();
         player.getInventory().setHelmet(new ItemStack(Material.AIR));
         player.getInventory().setChestplate(new ItemStack(Material.AIR));
@@ -146,7 +146,7 @@ public @Getter @Setter class PlayerManager {
         player.setLevel(0);
         player.setFireTicks(0);
         player.setSaturation(10);
-        player.setGameMode(GameMode.ADVENTURE);
+        player.setGameMode(gameMode);
         player.setAllowFlight(false);
         player.setFlying(false);
     }
@@ -169,10 +169,16 @@ public @Getter @Setter class PlayerManager {
         }
     }
 
+    public void removePreviewInventory()
+    {
+        if(Practice.getInstance().matchPreviewInventoryMap.containsKey(uuid)) Practice.getInstance().matchPreviewInventoryMap.get(uuid).destroy();
+    }
+
     public void destroy()
     {
         leaveQueue();
         save(); // save all local data in database
+        removePreviewInventory();
         playerManagers.remove(uuid);
     }
 

@@ -5,6 +5,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import fr.tetelie.practice.arena.ArenaManager;
 import fr.tetelie.practice.command.ArenaCommand;
+import fr.tetelie.practice.command.BuildCommand;
+import fr.tetelie.practice.command.InventoryCommand;
 import fr.tetelie.practice.command.PracticeCommand;
 import fr.tetelie.practice.event.*;
 import fr.tetelie.practice.gui.Gui;
@@ -12,6 +14,7 @@ import fr.tetelie.practice.gui.guis.FightGui;
 import fr.tetelie.practice.gui.guis.PanelGui;
 import fr.tetelie.practice.inventory.FightInventory;
 import fr.tetelie.practice.inventory.Kit;
+import fr.tetelie.practice.inventory.MatchPreviewInventory;
 import fr.tetelie.practice.inventory.inventories.QueueInventory;
 import fr.tetelie.practice.inventory.inventories.SpawnInventory;
 import fr.tetelie.practice.ladder.Ladder;
@@ -34,10 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public @Getter class Practice extends JavaPlugin {
 
@@ -58,6 +58,7 @@ public @Getter class Practice extends JavaPlugin {
     public List<Ladder> ladders = Arrays.asList(new NoDebuff(), new Debuff());
 
     public Map<String, FightManager> fight = new HashMap<>();
+    public Map<UUID, MatchPreviewInventory> matchPreviewInventoryMap = new HashMap<>();
 
     // Locations
     public LocationHelper spawn = new LocationHelper("spawn");
@@ -127,6 +128,8 @@ public @Getter class Practice extends JavaPlugin {
     private void registerCommand() {
         getCommand("practice").setExecutor(new PracticeCommand());
         getCommand("arena").setExecutor(new ArenaCommand());
+        getCommand("inventory").setExecutor(new InventoryCommand());
+        getCommand("build").setExecutor(new BuildCommand());
     }
 
     private void registerEvent() {
@@ -139,7 +142,9 @@ public @Getter class Practice extends JavaPlugin {
                 new FoodEvent(),
                 new DropEvent(),
                 new PickupEvent(),
-                new ClickEvent()
+                new ClickEvent(),
+                new BreakBlockEvent(),
+                new PlaceBlockEvent()
         ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 
