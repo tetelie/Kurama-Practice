@@ -3,13 +3,15 @@ package fr.tetelie.practice.inventory;
 import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.fight.FightManager;
 import fr.tetelie.practice.ladder.Ladder;
-import fr.tetelie.practice.match.MatchType;
+import fr.tetelie.practice.fight.FightType;
 import fr.tetelie.practice.util.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 public class FightInventory implements Runnable {
 
@@ -32,7 +34,7 @@ public class FightInventory implements Runnable {
             {
                 ItemStack current = Practice.getInstance().normalFight.getItem(slot);
                 ItemMeta meta = current.getItemMeta();
-                meta.setLore(Arrays.asList("§eIn Queue§7: §f" + Practice.getInstance().fight.get(ladder.displayName()).getQueue(MatchType.NORMAL), "§eIn Fight§7: §f" + Practice.getInstance().fight.get(ladder.displayName()).getFight(MatchType.NORMAL), " ", "§7Left click to join fight.", "§7Right click to view current match(s)."));
+                meta.setLore(Arrays.asList("§eIn Queue§7: §f" + Practice.getInstance().fight.get(ladder.displayName()).getQueue(FightType.NORMAL), "§eIn Fight§7: §f" + Practice.getInstance().fight.get(ladder.displayName()).getFight(FightType.NORMAL), " ", "§7Left click to join fight.", "§7Right click to view current match(s)."));
                 current.setItemMeta(meta);
                 slot++;
             }

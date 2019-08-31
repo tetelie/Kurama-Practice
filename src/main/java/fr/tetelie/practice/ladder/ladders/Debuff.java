@@ -1,23 +1,23 @@
 package fr.tetelie.practice.ladder.ladders;
 
 import fr.tetelie.practice.arena.ArenaType;
-import fr.tetelie.practice.ladder.Ladder;
 import fr.tetelie.practice.inventory.Kit;
+import fr.tetelie.practice.ladder.Ladder;
 import fr.tetelie.practice.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-public class NoDebuff extends Ladder implements Kit {
+public class Debuff extends Ladder implements Kit {
 
     @Override
     public String name() {
-        return "nodebuff";
+        return "debuff";
     }
 
     @Override
     public String displayName() {
-        return "§6§lNoDebuff";
+        return "§6§lDebuff";
     }
 
     @Override
@@ -27,7 +27,7 @@ public class NoDebuff extends Ladder implements Kit {
 
     @Override
     public byte data() {
-        return (byte)16421;
+        return (byte)8228;
     }
 
     @Override
@@ -57,18 +57,18 @@ public class NoDebuff extends Ladder implements Kit {
 
     @Override
     public ItemStack[] content() {
-        ItemStack[] Contents = {new ItemBuilder(Material.DIAMOND_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 3).addEnchant(Enchantment.DURABILITY, 3).addEnchant(Enchantment.FIRE_ASPECT, 2).toItemStack(),
+        ItemStack[] Contents = {new ItemBuilder(Material.DIAMOND_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 3).addEnchant(Enchantment.FIRE_ASPECT, 2).addEnchant(Enchantment.DURABILITY, 3).toItemStack(),
                 new ItemBuilder(Material.ENDER_PEARL, 16, (short)0).toItemStack(),
                 new ItemBuilder(Material.POTION, 1, (short)8259).toItemStack(),
                 new ItemBuilder(Material.POTION, 1, (short)8226).toItemStack(),
-                new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
-                new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
+                new ItemBuilder(Material.POTION, 1, (short)16388).toItemStack(),
+                new ItemBuilder(Material.POTION, 1, (short)16426).toItemStack(),
                 new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
                 new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
                 new ItemBuilder(Material.COOKED_BEEF, 64, (short)0).toItemStack(),
 
-                new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
-                new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
+                new ItemBuilder(Material.POTION, 1, (short)16388).toItemStack(),
+                new ItemBuilder(Material.POTION, 1, (short)16426).toItemStack(),
                 new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
                 new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
                 new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
@@ -77,8 +77,8 @@ public class NoDebuff extends Ladder implements Kit {
                 new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
                 new ItemBuilder(Material.POTION, 1, (short)8226).toItemStack(),
 
-                new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
-                new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
+                new ItemBuilder(Material.POTION, 1, (short)16426).toItemStack(),
+                new ItemBuilder(Material.POTION, 1, (short)16388).toItemStack(),
                 new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
                 new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),
                 new ItemBuilder(Material.POTION, 1, (short)16421).toItemStack(),

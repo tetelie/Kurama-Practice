@@ -13,6 +13,7 @@ public class JoinEvent implements Listener {
     public void onJoin(PlayerJoinEvent e)
     {
         Player player = e.getPlayer();
+        e.setJoinMessage("§7[§6+§7] §e"+player.getName());
         PlayerManager playerManager = new PlayerManager(player.getUniqueId(), player.getName());
         playerManager.reset(player);
         playerManager.teleport(player, Practice.getInstance().spawn);

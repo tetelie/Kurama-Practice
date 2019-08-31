@@ -2,6 +2,6 @@ package fr.tetelie.practice.match;
 
 public enum MatchType {
 
-    NORMAL, COMPETITIVE;
+    DUEL, TEAM_FFA, TEAM_SPLIT;
 
 }

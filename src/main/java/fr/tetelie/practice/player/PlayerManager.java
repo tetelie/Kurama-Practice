@@ -5,7 +5,8 @@ import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.fight.FightManager;
 import fr.tetelie.practice.historic.HistoricManager;
 import fr.tetelie.practice.inventory.Kit;
-import fr.tetelie.practice.match.MatchType;
+import fr.tetelie.practice.fight.FightType;
+import fr.tetelie.practice.match.MatchManager;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,10 +31,11 @@ public @Getter @Setter class PlayerManager {
     private int[] elos = new int[1];
     private PlayerSatus playerSatus = PlayerSatus.FREE;
     private HistoricManager historic = new HistoricManager("§6§lHistoric §f(Right click)", "§eRena Team");
+    private MatchManager currentFight;
 
     // Queue
     private String ladder;
-    private MatchType matchType;
+    private FightType fightType;
 
     static
     {
@@ -149,21 +151,21 @@ public @Getter @Setter class PlayerManager {
         player.setFlying(false);
     }
 
-    public void queue(String ladder, MatchType matchType)
+    public void queue(String ladder, FightType fightType)
     {
         this.ladder = ladder;
-        this.matchType = matchType;
-        Practice.getInstance().fight.get(ladder).getQueuePlayer().put(matchType, uuid);
+        this.fightType = fightType;
+        Practice.getInstance().fight.get(ladder).getQueuePlayer().put(fightType, uuid);
     }
 
     public void leaveQueue()
     {
         FightManager fightManager = Practice.getInstance().fight.get(ladder);
-        if(fightManager != null && fightManager.getQueuePlayer().containsKey(matchType) && fightManager.getQueuePlayer().get(matchType) != null && fightManager.getQueuePlayer().get(matchType) == this.uuid)
+        if(fightManager != null && fightManager.getQueuePlayer().containsKey(fightType) && fightManager.getQueuePlayer().get(fightType) != null && fightManager.getQueuePlayer().get(fightType) == this.uuid)
         {
-            fightManager.getQueuePlayer().put(matchType, null);
+            fightManager.getQueuePlayer().put(fightType, null);
             this.ladder = null;
-            this.matchType = null;
+            this.fightType = null;
         }
     }
 

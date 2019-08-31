@@ -1,35 +1,35 @@
 package fr.tetelie.practice.fight;
 
+import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.match.MatchManager;
-import fr.tetelie.practice.match.MatchType;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Getter @Setter
 public class FightManager {
 
-    private Map<MatchType, UUID> queuePlayer;
-    private Map<MatchType, List<MatchManager>> fightPlayer;
+    private Map<FightType, UUID> queuePlayer;
+    private Map<FightType, List<MatchManager>> fightPlayer;
 
     public FightManager(){
         queuePlayer = new HashMap<>();
         fightPlayer = new HashMap<>();
+
+        fightPlayer.put(FightType.NORMAL, new ArrayList<>());
+        fightPlayer.put(FightType.COMPETITIVE, new ArrayList<>());
     }
 
-    public int getQueue(MatchType matchType)
+    public int getQueue(FightType fightType)
     {
-        return queuePlayer.get(matchType) == null ? 0 : 1;
+        return queuePlayer.get(fightType) == null ? 0 : 1;
     }
 
-    public int getFight(MatchType matchType)
+    public int getFight(FightType fightType)
     {
-        if(fightPlayer.get(matchType) == null) return 0;
-        return fightPlayer.get(matchType).size()*2;
+        if(fightPlayer.get(fightType) == null) return 0;
+        return fightPlayer.get(fightType).size()*2;
     }
 
 }

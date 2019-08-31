@@ -28,7 +28,7 @@ public class ArenaCommand implements CommandExecutor {
             {
                 sender.sendMessage(" ");
                 sender.sendMessage("§6Arena List§7:");
-                ArenaManager.getAll().forEach(arenaManager -> sender.sendMessage("§7- " + arenaManager.getName()));
+                ArenaManager.getAll().forEach(arenaManager -> sender.sendMessage("§7- §e" + arenaManager.getName() + " §7-> §e" + arenaManager.getArenaType().toString()));
             }
             else{
                 sender.sendMessage(invalidArguement);

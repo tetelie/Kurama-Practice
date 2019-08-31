@@ -31,8 +31,10 @@ public class InteractEvent implements Listener {
                         player.openInventory(Practice.getInstance().fightGui.inventory());
                     }else if(current.getType() == Material.CAULDRON_ITEM && current.getItemMeta().getDisplayName().equals("§6§lHistoric §r§f(Right click)"))
                     {
-                        System.out.println("test");
                         playerManager.getHistoric().open(player);
+                    }else if(current.getType() == Material.PAINTING && current.getItemMeta().getDisplayName().equalsIgnoreCase("§6§lPanel §r§f(Right click)"))
+                    {
+                        player.openInventory(Practice.getInstance().panelGui.inventory());
                     }
                 }else if(playerManager.getPlayerSatus() == PlayerSatus.QUEUE)
                 {

@@ -6,17 +6,16 @@ import com.zaxxer.hikari.HikariDataSource;
 import fr.tetelie.practice.arena.ArenaManager;
 import fr.tetelie.practice.command.ArenaCommand;
 import fr.tetelie.practice.command.PracticeCommand;
-import fr.tetelie.practice.event.ClickEvent;
-import fr.tetelie.practice.event.InteractEvent;
-import fr.tetelie.practice.event.JoinEvent;
-import fr.tetelie.practice.event.QuitEvent;
+import fr.tetelie.practice.event.*;
 import fr.tetelie.practice.gui.Gui;
 import fr.tetelie.practice.gui.guis.FightGui;
+import fr.tetelie.practice.gui.guis.PanelGui;
 import fr.tetelie.practice.inventory.FightInventory;
 import fr.tetelie.practice.inventory.Kit;
 import fr.tetelie.practice.inventory.inventories.QueueInventory;
 import fr.tetelie.practice.inventory.inventories.SpawnInventory;
 import fr.tetelie.practice.ladder.Ladder;
+import fr.tetelie.practice.ladder.ladders.Debuff;
 import fr.tetelie.practice.ladder.ladders.NoDebuff;
 import fr.tetelie.practice.mysql.PracticeDB;
 import fr.tetelie.practice.fight.FightManager;
@@ -56,7 +55,7 @@ public @Getter class Practice extends JavaPlugin {
 
     private String configPath;
 
-    public List<Ladder> ladders = Arrays.asList(new NoDebuff());
+    public List<Ladder> ladders = Arrays.asList(new NoDebuff(), new Debuff());
 
     public Map<String, FightManager> fight = new HashMap<>();
 
@@ -69,6 +68,7 @@ public @Getter class Practice extends JavaPlugin {
 
     // Guis
     public Gui fightGui = new FightGui();
+    public Gui panelGui = new PanelGui();
 
     //Thread
     public Thread fightInventory;
@@ -134,6 +134,11 @@ public @Getter class Practice extends JavaPlugin {
                 new JoinEvent(),
                 new QuitEvent(),
                 new InteractEvent(),
+                new DeathEvent(),
+                new DamageEvent(),
+                new FoodEvent(),
+                new DropEvent(),
+                new PickupEvent(),
                 new ClickEvent()
         ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
