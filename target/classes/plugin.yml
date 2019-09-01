@@ -10,3 +10,5 @@ commands:
   inventory:
   build:
     permission: practice.build
+  duel:
+  accept:

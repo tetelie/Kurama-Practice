@@ -2,6 +2,7 @@ package fr.tetelie.practice.player;
 
 import co.aikar.idb.DB;
 import fr.tetelie.practice.Practice;
+import fr.tetelie.practice.duel.DuelManager;
 import fr.tetelie.practice.fight.FightManager;
 import fr.tetelie.practice.historic.HistoricManager;
 import fr.tetelie.practice.inventory.Kit;
@@ -32,6 +33,7 @@ public @Getter @Setter class PlayerManager {
     private PlayerSatus playerSatus = PlayerSatus.FREE;
     private HistoricManager historic = new HistoricManager("§6§lHistoric §f(Right click)", "§eRena Team");
     private MatchManager currentFight;
+    private UUID currentDuelPlayer;
 
     // Queue
     private String ladder;
@@ -169,6 +171,12 @@ public @Getter @Setter class PlayerManager {
         }
     }
 
+    public void removeDuel()
+    {
+        if(DuelManager.getDuelBySender(uuid) != null) DuelManager.getDuelBySender(uuid).destroy();
+        if(DuelManager.getDuelByReciever(uuid) != null) DuelManager.getDuelByReciever(uuid).destroy();
+    }
+
     public void removePreviewInventory()
     {
         if(Practice.getInstance().matchPreviewInventoryMap.containsKey(uuid)) Practice.getInstance().matchPreviewInventoryMap.get(uuid).destroy();
@@ -177,6 +185,7 @@ public @Getter @Setter class PlayerManager {
     public void destroy()
     {
         leaveQueue();
+        removeDuel();
         save(); // save all local data in database
         removePreviewInventory();
         playerManagers.remove(uuid);

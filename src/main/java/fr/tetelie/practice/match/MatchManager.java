@@ -47,6 +47,8 @@ public class MatchManager {
         Bukkit.broadcastMessage("Create new match: matchtype: " + matchType.toString() +" fighttype:"+fightType.toString()+" ladder:"+ladder.name()+" arena:" + arena.getName());
         playerManager1.removePreviewInventory();
         playerManager2.removePreviewInventory();
+        playerManager1.removeDuel();
+        playerManager2.removeDuel();
         playerManager1.setPlayerSatus(PlayerSatus.FIGHT);
         playerManager2.setPlayerSatus(PlayerSatus.FIGHT);
         player1.teleport(arena.getLoc1());

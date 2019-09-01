@@ -4,12 +4,10 @@ import co.aikar.idb.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import fr.tetelie.practice.arena.ArenaManager;
-import fr.tetelie.practice.command.ArenaCommand;
-import fr.tetelie.practice.command.BuildCommand;
-import fr.tetelie.practice.command.InventoryCommand;
-import fr.tetelie.practice.command.PracticeCommand;
+import fr.tetelie.practice.command.*;
 import fr.tetelie.practice.event.*;
 import fr.tetelie.practice.gui.Gui;
+import fr.tetelie.practice.gui.guis.DuelGui;
 import fr.tetelie.practice.gui.guis.FightGui;
 import fr.tetelie.practice.gui.guis.PanelGui;
 import fr.tetelie.practice.inventory.FightInventory;
@@ -67,11 +65,12 @@ public @Getter class Practice extends JavaPlugin {
     // Kits
     public Kit spawnKit = new SpawnInventory();
     public Kit respawnKit = new RespawnInventory();
-    public  Kit queueKit = new QueueInventory();
+    public Kit queueKit = new QueueInventory();
 
     // Guis
     public Gui fightGui = new FightGui();
     public Gui panelGui = new PanelGui();
+    public Gui duelGui = new DuelGui();
 
     //Thread
     public Thread fightInventory;
@@ -132,6 +131,8 @@ public @Getter class Practice extends JavaPlugin {
         getCommand("arena").setExecutor(new ArenaCommand());
         getCommand("inventory").setExecutor(new InventoryCommand());
         getCommand("build").setExecutor(new BuildCommand());
+        getCommand("duel").setExecutor(new DuelCommand());
+        getCommand("accept").setExecutor(new AcceptCommand());
     }
 
     private void registerEvent() {

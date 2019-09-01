@@ -1,6 +1,7 @@
 package fr.tetelie.practice.event;
 
 import fr.tetelie.practice.Practice;
+import fr.tetelie.practice.duel.DuelManager;
 import fr.tetelie.practice.fight.FightManager;
 import fr.tetelie.practice.fight.FightType;
 import fr.tetelie.practice.ladder.Ladder;
@@ -8,6 +9,7 @@ import fr.tetelie.practice.match.MatchManager;
 import fr.tetelie.practice.match.MatchType;
 import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.player.PlayerSatus;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -49,6 +51,14 @@ public class ClickEvent implements Listener {
                                 playerManager.sendKit(Practice.getInstance().queueKit);
                                 player.sendMessage("You are added to the queue");
                             }
+                        }
+                    } else if(inventory.getName().equals("§6Duel"))
+                    {
+                        if(playerManager.getCurrentDuelPlayer() != null && Bukkit.getPlayer(playerManager.getCurrentDuelPlayer()) != null) {
+                            player.closeInventory();
+                            new DuelManager(player.getUniqueId(), playerManager.getCurrentDuelPlayer(), current.getItemMeta().getDisplayName());
+                        }else{
+                            player.sendMessage("§cThe target player is not connected!");
                         }
                     }
                 }

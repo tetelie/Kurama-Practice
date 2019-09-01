@@ -5,6 +5,8 @@ fr\tetelie\practice\match\MatchManager$1.class
 fr\tetelie\practice\historic\HistoricManager.class
 fr\tetelie\practice\ladder\ladders\NoDebuff.class
 fr\tetelie\practice\event\InteractEvent.class
+fr\tetelie\practice\duel\DuelManager$1.class
+fr\tetelie\practice\duel\DuelManager.class
 fr\tetelie\practice\event\QuitEvent.class
 fr\tetelie\practice\inventory\inventories\QueueInventory.class
 fr\tetelie\practice\inventory\inventories\RespawnInventory.class
@@ -18,6 +20,7 @@ fr\tetelie\practice\Practice.class
 fr\tetelie\practice\fight\FightType.class
 fr\tetelie\practice\command\InventoryCommand.class
 fr\tetelie\practice\player\PlayerManager.class
+fr\tetelie\practice\command\DuelCommand.class
 fr\tetelie\practice\event\PickupEvent.class
 fr\tetelie\practice\match\MatchManager$2.class
 fr\tetelie\practice\mysql\PracticeDB.class
@@ -25,6 +28,7 @@ fr\tetelie\practice\event\DropEvent$1.class
 fr\tetelie\practice\command\BuildCommand.class
 fr\tetelie\practice\arena\ArenaType.class
 fr\tetelie\practice\match\MatchEndCause.class
+fr\tetelie\practice\command\AcceptCommand.class
 fr\tetelie\practice\inventory\FightInventory.class
 fr\tetelie\practice\util\ItemBuilder.class
 fr\tetelie\practice\inventory\inventories\SpawnInventory.class
@@ -35,6 +39,8 @@ fr\tetelie\practice\match\MatchType.class
 fr\tetelie\practice\fight\FightManager.class
 fr\tetelie\practice\player\PlayerSatus.class
 fr\tetelie\practice\match\MatchManager.class
+fr\tetelie\practice\duel\DuelType.class
+fr\tetelie\practice\gui\guis\DuelGui.class
 fr\tetelie\practice\inventory\MatchPreviewInventory.class
 fr\tetelie\practice\ladder\ladders\Debuff.class
 fr\tetelie\practice\event\DropEvent.class
