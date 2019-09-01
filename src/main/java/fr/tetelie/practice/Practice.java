@@ -16,6 +16,7 @@ import fr.tetelie.practice.inventory.FightInventory;
 import fr.tetelie.practice.inventory.Kit;
 import fr.tetelie.practice.inventory.MatchPreviewInventory;
 import fr.tetelie.practice.inventory.inventories.QueueInventory;
+import fr.tetelie.practice.inventory.inventories.RespawnInventory;
 import fr.tetelie.practice.inventory.inventories.SpawnInventory;
 import fr.tetelie.practice.ladder.Ladder;
 import fr.tetelie.practice.ladder.ladders.Debuff;
@@ -65,6 +66,7 @@ public @Getter class Practice extends JavaPlugin {
 
     // Kits
     public Kit spawnKit = new SpawnInventory();
+    public Kit respawnKit = new RespawnInventory();
     public  Kit queueKit = new QueueInventory();
 
     // Guis

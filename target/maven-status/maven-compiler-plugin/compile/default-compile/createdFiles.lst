@@ -7,6 +7,7 @@ fr\tetelie\practice\ladder\ladders\NoDebuff.class
 fr\tetelie\practice\event\InteractEvent.class
 fr\tetelie\practice\event\QuitEvent.class
 fr\tetelie\practice\inventory\inventories\QueueInventory.class
+fr\tetelie\practice\inventory\inventories\RespawnInventory.class
 fr\tetelie\practice\util\LocationHelper.class
 fr\tetelie\practice\event\ClickEvent.class
 fr\tetelie\practice\event\BreakBlockEvent.class

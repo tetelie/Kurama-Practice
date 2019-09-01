@@ -23,12 +23,13 @@ public class BuildCommand implements CommandExecutor {
             if(playerManager.getPlayerSatus() == PlayerSatus.FREE)
             {
                 playerManager.reset(player, GameMode.CREATIVE);
+                player.setAllowFlight(true);
                 player.getInventory().setItem(0, new ItemStack(Material.WOOD_AXE));
                 player.getInventory().setItem(1, new ItemStack(Material.DIAMOND_SPADE));
                 playerManager.setPlayerSatus(PlayerSatus.BUILD);
                 sender.sendMessage("§aBuild enable!");
             }else{
-                playerManager.reset(player, GameMode.ADVENTURE);
+                playerManager.reset(player, GameMode.SURVIVAL);
                 playerManager.sendKit(Practice.getInstance().spawnKit);
                 playerManager.teleport(player, Practice.getInstance().spawn);
                 playerManager.setPlayerSatus(PlayerSatus.FREE);
