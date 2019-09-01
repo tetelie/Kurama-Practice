@@ -5,10 +5,12 @@ import fr.tetelie.practice.duel.DuelManager;
 import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.player.PlayerSatus;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class DuelCommand implements CommandExecutor {
 
@@ -34,6 +36,7 @@ public class DuelCommand implements CommandExecutor {
                                 return true;
                             }else{
                                 DuelManager.getDuelBySender(playerManager.getUuid()).destroy();
+                                if(((Player) sender).getInventory().getItem(1).getType() == Material.FIRE) playerManager.sendKit(Practice.getInstance().spawnKit);
                             }
                         }
                         playerManager.setCurrentDuelPlayer(target.getUniqueId());

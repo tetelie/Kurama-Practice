@@ -13,7 +13,7 @@ public class RespawnInventory implements Kit {
     public ItemStack[] content() {
         return new ItemStack[]{
                 new ItemBuilder(Material.WOOD_SWORD).setUnBreakable().setName("§6§lFight"+suffix).toItemStack(),
-                new ItemBuilder(Material.FIRE).setName("§6§lRematch §r§f(Right click)").toItemStack(),
+                new ItemBuilder(Material.FIRE).setName("§6§lRematch"+suffix).toItemStack(),
                 air,
                 new ItemBuilder(Material.CAULDRON_ITEM).setName("§6§lHistoric"+suffix).toItemStack(),
                 air,

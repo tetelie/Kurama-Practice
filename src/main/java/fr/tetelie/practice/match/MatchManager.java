@@ -148,6 +148,8 @@ public class MatchManager {
                     playerManager.teleport(player, Practice.getInstance().spawn);
                     playerManager.sendKit(Practice.getInstance().respawnKit);
                     playerManager2.sendKit(Practice.getInstance().respawnKit);
+                    playerManager.setCurrentDuelPlayer(playerManager2.getUuid());
+                    playerManager2.setCurrentDuelPlayer(playerManager.getUuid());
                     playerManager.setPlayerSatus(PlayerSatus.FREE);
                 }else{
                     playerManager2.sendKit(Practice.getInstance().spawnKit);

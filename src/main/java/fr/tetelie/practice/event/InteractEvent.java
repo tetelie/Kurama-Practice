@@ -1,8 +1,10 @@
 package fr.tetelie.practice.event;
 
 import fr.tetelie.practice.Practice;
+import fr.tetelie.practice.ladder.Ladder;
 import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.player.PlayerSatus;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,9 +34,20 @@ public class InteractEvent implements Listener {
                     }else if(current.getType() == Material.CAULDRON_ITEM && current.getItemMeta().getDisplayName().equals("§6§lHistoric §r§f(Right click)"))
                     {
                         playerManager.getHistoric().open(player);
-                    }else if(current.getType() == Material.PAINTING && current.getItemMeta().getDisplayName().equalsIgnoreCase("§6§lPanel §r§f(Right click)"))
+                    }else if(current.getType() == Material.PAINTING && current.getItemMeta().getDisplayName().equals("§6§lPanel §r§f(Right click)"))
                     {
                         player.openInventory(Practice.getInstance().panelGui.inventory());
+                    }else if(current.getType() == Material.FIRE && current.getItemMeta().getDisplayName().equals("§6§lRematch §r§f(Right click)"))
+                    {
+                        if(playerManager.getCurrentDuelPlayer() != null)
+                        {
+                            if(Bukkit.getPlayer(playerManager.getCurrentDuelPlayer()) != null) {
+                                Bukkit.dispatchCommand(player, "duel " + Bukkit.getPlayer(playerManager.getCurrentDuelPlayer()).getName());
+                            }else{
+                                playerManager.sendKit(Practice.getInstance().spawnKit);
+                                player.sendMessage("§cThis player is offline!");
+                            }
+                        }
                     }
                 }else if(playerManager.getPlayerSatus() == PlayerSatus.QUEUE)
                 {
