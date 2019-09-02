@@ -7,6 +7,7 @@ import fr.tetelie.practice.arena.ArenaManager;
 import fr.tetelie.practice.command.*;
 import fr.tetelie.practice.event.*;
 import fr.tetelie.practice.gui.Gui;
+import fr.tetelie.practice.gui.GuiMultiPageManager;
 import fr.tetelie.practice.gui.guis.DuelGui;
 import fr.tetelie.practice.gui.guis.FightGui;
 import fr.tetelie.practice.gui.guis.PanelGui;
@@ -22,14 +23,17 @@ import fr.tetelie.practice.ladder.ladders.NoDebuff;
 import fr.tetelie.practice.mysql.PracticeDB;
 import fr.tetelie.practice.fight.FightManager;
 import fr.tetelie.practice.player.PlayerManager;
+import fr.tetelie.practice.util.ItemBuilder;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -71,6 +75,9 @@ public @Getter class Practice extends JavaPlugin {
     public Gui fightGui = new FightGui();
     public Gui panelGui = new PanelGui();
     public Gui duelGui = new DuelGui();
+
+    // Multiple Gui
+    public GuiMultiPageManager spectateGui = new GuiMultiPageManager(new ArrayList<>(), "§6Spectate", new ItemBuilder(Material.COMPASS).setName("§6Spectate current fight(s)").toItemStack(), (byte)1);
 
     //Thread
     public Thread fightInventory;

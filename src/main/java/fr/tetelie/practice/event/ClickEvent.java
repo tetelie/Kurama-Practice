@@ -18,6 +18,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import javax.print.attribute.standard.PageRanges;
+
 public class ClickEvent implements Listener {
 
     @EventHandler
@@ -59,6 +61,17 @@ public class ClickEvent implements Listener {
                             new DuelManager(player.getUniqueId(), playerManager.getCurrentDuelPlayer(), current.getItemMeta().getDisplayName());
                         }else{
                             player.sendMessage("§cThe target player is not connected!");
+                        }
+                    } else if(inventory.getName().equals("§6Spectate"))
+                    {
+                        if(current.getType() == Material.ARROW && current.getItemMeta().getDisplayName().equals("§6Next page") && current.getItemMeta().hasLore())
+                        {
+                            String str = current.getItemMeta().getLore().get(0).substring(7);
+                            Practice.getInstance().spectateGui.open(player, Integer.parseInt(str));
+                        }else if(current.getType() == Material.LEVER && current.getItemMeta().getDisplayName().equals("§6Previous page") && current.getItemMeta().hasLore())
+                        {
+                            String str = current.getItemMeta().getLore().get(0).substring(7);
+                            Practice.getInstance().spectateGui.open(player, Integer.parseInt(str));
                         }
                     }
                 }

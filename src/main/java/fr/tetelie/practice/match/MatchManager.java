@@ -18,10 +18,20 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
 public class MatchManager {
+
+    static @Getter
+    List<MatchManager> all;
+
+    static
+    {
+        all = new ArrayList<>();
+    }
 
     private UUID uuid1;
     private UUID uuid2;
@@ -89,7 +99,7 @@ public class MatchManager {
                 }
             }
         }.runTaskTimer(Practice.getInstance(), 20L, 20L);
-
+        all.add(this);
     }
 
     public void end(MatchEndCause cause, Player player, PlayerManager playerManager)
@@ -161,6 +171,7 @@ public class MatchManager {
     private void destroy()
     {
         if(Practice.getInstance().fight.get(ladder.displayName()).getFightPlayer().get(fightType).contains(this)) Practice.getInstance().fight.get(ladder.displayName()).getFightPlayer().get(fightType).remove(this);
+        // TODO remove this form all list after 30 seconds
     }
 
     private void sendGlobalMessage(String message, Player... players) { for(Player player : players) player.sendMessage(message); }

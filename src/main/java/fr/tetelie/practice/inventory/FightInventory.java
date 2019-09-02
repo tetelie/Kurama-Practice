@@ -4,8 +4,10 @@ import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.fight.FightManager;
 import fr.tetelie.practice.ladder.Ladder;
 import fr.tetelie.practice.fight.FightType;
+import fr.tetelie.practice.match.MatchManager;
 import fr.tetelie.practice.util.ItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -24,6 +26,7 @@ public class FightInventory implements Runnable {
             Practice.getInstance().competitiveFight.addItem(item);
             Practice.getInstance().fight.put(ladder.displayName(), new FightManager());
         }
+
         while(true)
         {
             // update ladder lore
@@ -36,6 +39,7 @@ public class FightInventory implements Runnable {
                 current.setItemMeta(meta);
                 slot++;
             }
+
             try {
                 Thread.sleep(1000);
             }catch (InterruptedException e)

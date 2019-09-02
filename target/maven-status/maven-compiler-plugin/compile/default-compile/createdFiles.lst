@@ -16,6 +16,7 @@ fr\tetelie\practice\event\BreakBlockEvent.class
 fr\tetelie\practice\gui\guis\FightGui.class
 fr\tetelie\practice\command\PracticeCommand.class
 fr\tetelie\practice\arena\ArenaManager.class
+fr\tetelie\practice\gui\GuiMultiPageManager.class
 fr\tetelie\practice\Practice.class
 fr\tetelie\practice\fight\FightType.class
 fr\tetelie\practice\command\InventoryCommand.class
