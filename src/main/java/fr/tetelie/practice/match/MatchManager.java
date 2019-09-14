@@ -35,6 +35,8 @@ public class MatchManager {
 
     private UUID uuid1;
     private UUID uuid2;
+    private String name1;
+    private String name2;
     private @Setter MatchStatus matchStatus = MatchStatus.STARTING;
     private FightType fightType;
     private ArenaManager arena;
@@ -47,6 +49,8 @@ public class MatchManager {
         this.fightType = fightType;
         Player player1 = Bukkit.getPlayer(uuid1);
         Player player2 = Bukkit.getPlayer(uuid2);
+        this.name1 = player1.getName();
+        this.name2 = player2.getName();
         PlayerManager playerManager1 = PlayerManager.getPlayerManagers().get(uuid1);
         PlayerManager playerManager2 = PlayerManager.getPlayerManagers().get(uuid2);
         Ladder ladder = Ladder.getLadder(ladderDisplayName);

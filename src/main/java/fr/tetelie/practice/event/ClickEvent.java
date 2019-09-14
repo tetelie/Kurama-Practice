@@ -4,9 +4,9 @@ import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.duel.DuelManager;
 import fr.tetelie.practice.fight.FightManager;
 import fr.tetelie.practice.fight.FightType;
-import fr.tetelie.practice.ladder.Ladder;
 import fr.tetelie.practice.match.MatchManager;
 import fr.tetelie.practice.match.MatchType;
+import fr.tetelie.practice.party.PartyManager;
 import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.player.PlayerSatus;
 import org.bukkit.Bukkit;
@@ -17,8 +17,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import javax.print.attribute.standard.PageRanges;
 
 public class ClickEvent implements Listener {
 
@@ -72,6 +70,13 @@ public class ClickEvent implements Listener {
                         {
                             String str = current.getItemMeta().getLore().get(0).substring(7);
                             Practice.getInstance().spectateGui.open(player, Integer.parseInt(str));
+                        }
+                    } else  if(inventory.getName().equals("§6Panel"))
+                    {
+                        if(current.getType() == Material.LEASH && current.getItemMeta().getDisplayName().equals("§eTeam"))
+                        {
+                            player.closeInventory();
+                            new PartyManager(playerManager, player);
                         }
                     }
                 }

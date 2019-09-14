@@ -14,6 +14,7 @@ import fr.tetelie.practice.gui.guis.PanelGui;
 import fr.tetelie.practice.inventory.FightInventory;
 import fr.tetelie.practice.inventory.Kit;
 import fr.tetelie.practice.inventory.MatchPreviewInventory;
+import fr.tetelie.practice.inventory.inventories.PartyLeaderInventory;
 import fr.tetelie.practice.inventory.inventories.QueueInventory;
 import fr.tetelie.practice.inventory.inventories.RespawnInventory;
 import fr.tetelie.practice.inventory.inventories.SpawnInventory;
@@ -22,6 +23,7 @@ import fr.tetelie.practice.ladder.ladders.Debuff;
 import fr.tetelie.practice.ladder.ladders.NoDebuff;
 import fr.tetelie.practice.mysql.PracticeDB;
 import fr.tetelie.practice.fight.FightManager;
+import fr.tetelie.practice.party.PartyManager;
 import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.util.ItemBuilder;
 import fr.tetelie.practice.util.LocationHelper;
@@ -62,6 +64,7 @@ public @Getter class Practice extends JavaPlugin {
 
     public Map<String, FightManager> fight = new HashMap<>();
     public Map<UUID, MatchPreviewInventory> matchPreviewInventoryMap = new HashMap<>();
+    public Map<UUID, PartyManager> party = new HashMap<>();
 
     // Locations
     public LocationHelper spawn = new LocationHelper("spawn");
@@ -70,6 +73,7 @@ public @Getter class Practice extends JavaPlugin {
     public Kit spawnKit = new SpawnInventory();
     public Kit respawnKit = new RespawnInventory();
     public Kit queueKit = new QueueInventory();
+    public Kit partyLeaderKit = new PartyLeaderInventory();
 
     // Guis
     public Gui fightGui = new FightGui();
@@ -77,7 +81,8 @@ public @Getter class Practice extends JavaPlugin {
     public Gui duelGui = new DuelGui();
 
     // Multiple Gui
-    public GuiMultiPageManager spectateGui = new GuiMultiPageManager(new ArrayList<>(), "§6Spectate", new ItemBuilder(Material.COMPASS).setName("§6Spectate current fight(s)").toItemStack(), (byte)1);
+    public GuiMultiPageManager spectateGui = new GuiMultiPageManager(new ArrayList<>(), "§6Spectate", new ItemBuilder(Material.COMPASS).setName("§6Spectate current fight(s)").toItemStack(), (byte)15);
+    public GuiMultiPageManager eventGui = new GuiMultiPageManager(new ArrayList<>(), "§6Event", new ItemBuilder(Material.NETHER_STAR).setName("§6List of current event(s)").toItemStack(), (byte)0);
 
     //Thread
     public Thread fightInventory;

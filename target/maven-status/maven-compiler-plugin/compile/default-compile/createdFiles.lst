@@ -15,14 +15,18 @@ fr\tetelie\practice\event\ClickEvent.class
 fr\tetelie\practice\event\BreakBlockEvent.class
 fr\tetelie\practice\gui\guis\FightGui.class
 fr\tetelie\practice\command\PracticeCommand.class
+fr\tetelie\practice\inventory\inventories\PartyLeaderInventory.class
+fr\tetelie\practice\quest\quests\ExampleQuest.class
 fr\tetelie\practice\arena\ArenaManager.class
 fr\tetelie\practice\gui\GuiMultiPageManager.class
 fr\tetelie\practice\Practice.class
 fr\tetelie\practice\fight\FightType.class
+fr\tetelie\practice\quest\Quest.class
 fr\tetelie\practice\command\InventoryCommand.class
 fr\tetelie\practice\player\PlayerManager.class
 fr\tetelie\practice\command\DuelCommand.class
 fr\tetelie\practice\event\PickupEvent.class
+fr\tetelie\practice\event\custom\QuestCompleteEvent.class
 fr\tetelie\practice\match\MatchManager$2.class
 fr\tetelie\practice\mysql\PracticeDB.class
 fr\tetelie\practice\event\DropEvent$1.class
@@ -39,6 +43,7 @@ fr\tetelie\practice\gui\guis\PanelGui.class
 fr\tetelie\practice\match\MatchType.class
 fr\tetelie\practice\fight\FightManager.class
 fr\tetelie\practice\player\PlayerSatus.class
+fr\tetelie\practice\party\PartyManager.class
 fr\tetelie\practice\match\MatchManager.class
 fr\tetelie\practice\duel\DuelType.class
 fr\tetelie\practice\gui\guis\DuelGui.class

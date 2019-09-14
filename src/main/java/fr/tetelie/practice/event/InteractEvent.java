@@ -2,7 +2,6 @@ package fr.tetelie.practice.event;
 
 import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.fight.FightType;
-import fr.tetelie.practice.ladder.Ladder;
 import fr.tetelie.practice.match.MatchManager;
 import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.player.PlayerSatus;
@@ -16,7 +15,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.print.attribute.standard.PageRanges;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +58,7 @@ public class InteractEvent implements Listener {
                         List<ItemStack> matchs = new ArrayList<>();
                         for (MatchManager matchManager : MatchManager.getAll()) {
                             ItemBuilder item = matchManager.getFightType() == FightType.NORMAL ? new ItemBuilder(Material.FEATHER) : new ItemBuilder(Material.EXP_BOTTLE);
-                            item.setName("§6"+Bukkit.getPlayer(matchManager.getUuid1()).getName() + " §evs §6" + Bukkit.getPlayer(matchManager.getUuid2()).getName());
+                            item.setName("§6"+ matchManager.getName1() + " §evs §6" + matchManager.getName2());
                             List<String> lore = new ArrayList<>();
                             lore.add(" ");
                             lore.add("§6Type§7: §e"+matchManager.getFightType().toString().toLowerCase());
@@ -70,10 +68,11 @@ public class InteractEvent implements Listener {
                             item.setLore(lore);
                             matchs.add(item.toItemStack());
                         }
-                        player.sendMessage(MatchManager.getAll().size()+"");
-                        player.sendMessage(matchs.size()+"");
                         Practice.getInstance().spectateGui.setItemStacks(matchs);
                         Practice.getInstance().spectateGui.open(player, 1);
+                    }else if(current.getType() == Material.NETHER_STAR && current.getItemMeta().getDisplayName().equals("§6§lEvent §r§f(Right click)"))
+                    {
+                        Practice.getInstance().eventGui.open(player, 1);
                     }
                 }else if(playerManager.getPlayerSatus() == PlayerSatus.QUEUE)
                 {
@@ -82,6 +81,14 @@ public class InteractEvent implements Listener {
                         playerManager.leaveQueue();
                         playerManager.setPlayerSatus(PlayerSatus.FREE);
                         playerManager.sendKit(Practice.getInstance().spawnKit);
+                    }
+                } else if(playerManager.getPlayerSatus() == PlayerSatus.PARTY)
+                {
+                    if(current.getType() == Material.FIRE && current.getItemMeta().getDisplayName().equals("§6§lDisband party §r§f(Right click)"))
+                    {
+                        Practice.getInstance().party.get(player.getUniqueId()).destroy();
+                        playerManager.sendKit(Practice.getInstance().spawnKit);
+                        playerManager.setPlayerSatus(PlayerSatus.FREE);
                     }
                 }
             }
