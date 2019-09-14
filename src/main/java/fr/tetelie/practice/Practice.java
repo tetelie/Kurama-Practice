@@ -242,4 +242,11 @@ public @Getter class Practice extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage(message);
     }
 
+    public String formatTimer(int time)
+    {
+        int minute = time / 60;
+        int second = time % 60;
+        return (minute < 10 ? "0" : "") + minute + ":" + (second < 10 ? "0" : "") + second;
+    }
+
 }

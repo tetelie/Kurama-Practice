@@ -65,10 +65,11 @@ public class InteractEvent implements Listener {
                             lore.add("§6Ladder§7: §e"+matchManager.getLadder().name());
                             lore.add("§6Arena§7: §e"+matchManager.getArena().getName());
                             lore.add("§6Status§7: §e"+matchManager.getMatchStatus().toString().toLowerCase());
+                            lore.add("§6Duration§7: §e"+ matchManager.getDuration());
                             item.setLore(lore);
                             matchs.add(item.toItemStack());
                         }
-                        Practice.getInstance().spectateGui.setItemStacks(matchs);
+                        Practice.getInstance().spectateGui.refresh(matchs);
                         Practice.getInstance().spectateGui.open(player, 1);
                     }else if(current.getType() == Material.NETHER_STAR && current.getItemMeta().getDisplayName().equals("§6§lEvent §r§f(Right click)"))
                     {

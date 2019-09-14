@@ -42,8 +42,11 @@ public class MatchManager {
     private ArenaManager arena;
     private Ladder ladder;
     private int startTimer = 5;
+    private Long start_time;
+    private Long end_time;
 
     public MatchManager(MatchType matchType, UUID uuid1, UUID uuid2, FightType fightType, String ladderDisplayName){
+        this.start_time = System.currentTimeMillis();
         this.uuid1 = uuid1;
         this.uuid2 = uuid2;
         this.fightType = fightType;
@@ -108,6 +111,7 @@ public class MatchManager {
 
     public void end(MatchEndCause cause, Player player, PlayerManager playerManager)
     {
+        this.end_time = System.currentTimeMillis();
         UUID uuid = this.getUuid2() == player.getUniqueId() ? this.getUuid1() : this.getUuid2();
         Player player2 = Bukkit.getPlayer(uuid);
         PlayerManager playerManager2 = PlayerManager.getPlayerManagers().get(uuid);
@@ -170,6 +174,11 @@ public class MatchManager {
                 }
             }
         }, 60);
+    }
+
+    public String getDuration() {
+        Long end = this.end_time != null ? this.end_time : System.currentTimeMillis();
+        return Practice.getInstance().formatTimer((int) ((end - this.getStart_time()) / 1000L));
     }
 
     private void destroy()
