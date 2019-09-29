@@ -4,10 +4,12 @@ import co.aikar.idb.DB;
 import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.duel.DuelManager;
 import fr.tetelie.practice.fight.FightManager;
+import fr.tetelie.practice.gui.Gui;
 import fr.tetelie.practice.historic.HistoricManager;
 import fr.tetelie.practice.inventory.Kit;
 import fr.tetelie.practice.fight.FightType;
 import fr.tetelie.practice.match.MatchManager;
+import fr.tetelie.practice.player.settings.Settings;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +17,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
 import java.sql.SQLException;
@@ -28,8 +32,9 @@ public @Getter @Setter class PlayerManager {
 
     private UUID uuid;
     private String name;
-    private int[] settings = new int[3];
+    private int[] settings = new int[9];
     private int[] elos = new int[1];
+    private int[] stats = new int[5]; // normal win|lose, competitive win|lose, exp
     private PlayerSatus playerSatus = PlayerSatus.FREE;
     private HistoricManager historic = new HistoricManager("§6§lHistoric §f(Right click)", "§eRena Team");
     private MatchManager currentFight;
@@ -85,6 +90,11 @@ public @Getter @Setter class PlayerManager {
         {
             e.printStackTrace();
         }
+    }
+
+    public void setSettings(int index, int value)
+    {
+        if(this.settings[index] != value) this.settings[index] = value;
     }
 
     private int[] getSplitValue(String string, String spliter)
@@ -180,6 +190,56 @@ public @Getter @Setter class PlayerManager {
     public void removePreviewInventory()
     {
         if(Practice.getInstance().matchPreviewInventoryMap.containsKey(uuid)) Practice.getInstance().matchPreviewInventoryMap.get(uuid).destroy();
+    }
+
+    // settings
+    public Inventory getSettingsGui()
+    {
+        Inventory settings = Gui.clone(Practice.getInstance().settingsGui);
+        refreshSettingsLoreGui(settings);
+        return settings;
+    }
+
+    public void refreshSettingLore(Inventory settingInv, int slot, int setting)
+    {
+        ItemStack item = settingInv.getItem(slot);
+        ItemMeta meta = item.getItemMeta();
+        meta.getLore().clear();
+        List<String> lore = new ArrayList<>();
+        lore.add("§7§m----------------------");
+        lore.addAll(Arrays.asList(getSettingLore(setting)));
+        lore.add("§7§m----------------------");
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+    }
+
+    private void refreshSettingsLoreGui(Inventory settingsInv)
+    {
+        int setting = 0;
+        for(Settings settings : Settings.values())
+        {
+            refreshSettingLore(settingsInv, settings.getSlot(), setting);
+            setting++;
+        }
+    }
+
+    private String[] getSettingLore(int setting)
+    {
+        int value = this.settings[setting];
+        String[] lore = Practice.getInstance().getSettings().get(setting).clone();
+        lore[value] = "§e\u2192 " + Practice.getInstance().getSettings().get(setting)[value];
+        return lore;
+    }
+
+    public void changeSettings(int setting)
+    {
+        int currentValue = this.settings[setting];
+        if(Practice.getInstance().getSettings().get(setting).length <= currentValue+1)
+        {
+            this.settings[setting] = 0;
+        }else {
+            this.settings[setting] = this.settings[setting] + 1;
+        }
     }
 
     public void destroy()

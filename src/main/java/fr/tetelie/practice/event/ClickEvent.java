@@ -9,6 +9,7 @@ import fr.tetelie.practice.match.MatchType;
 import fr.tetelie.practice.party.PartyManager;
 import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.player.PlayerSatus;
+import fr.tetelie.practice.player.settings.Settings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -77,7 +78,18 @@ public class ClickEvent implements Listener {
                         {
                             player.closeInventory();
                             new PartyManager(playerManager, player);
+                        }else if(current.getType() == Material.FERMENTED_SPIDER_EYE && current.getItemMeta().getDisplayName().equals("§eSettings"))
+                        {
+                            player.openInventory(playerManager.getSettingsGui());
+                        }else if(current.getType() == Material.BOOK && current.getItemMeta().getDisplayName().equals("§eEditor"))
+                        {
+                            player.openInventory(Practice.getInstance().editorGui.inventory());
                         }
+                    }else if(inventory.getName().equals("§6§lSettings"))
+                    {
+                        int setting = Settings.getSettingsBySlot(e.getSlot()).getId();
+                        playerManager.changeSettings(setting);
+                        playerManager.refreshSettingLore(inventory, e.getSlot(), setting);
                     }
                 }
             }

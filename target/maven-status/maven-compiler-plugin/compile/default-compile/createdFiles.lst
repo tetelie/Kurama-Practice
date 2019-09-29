@@ -10,12 +10,14 @@ fr\tetelie\practice\duel\DuelManager.class
 fr\tetelie\practice\event\QuitEvent.class
 fr\tetelie\practice\inventory\inventories\QueueInventory.class
 fr\tetelie\practice\inventory\inventories\RespawnInventory.class
+fr\tetelie\practice\gui\models\SettingsGui.class
 fr\tetelie\practice\util\LocationHelper.class
 fr\tetelie\practice\event\ClickEvent.class
 fr\tetelie\practice\event\BreakBlockEvent.class
 fr\tetelie\practice\gui\guis\FightGui.class
 fr\tetelie\practice\command\PracticeCommand.class
 fr\tetelie\practice\inventory\inventories\PartyLeaderInventory.class
+fr\tetelie\practice\player\settings\Settings.class
 fr\tetelie\practice\quest\quests\ExampleQuest.class
 fr\tetelie\practice\arena\ArenaManager.class
 fr\tetelie\practice\gui\GuiMultiPageManager.class
@@ -56,3 +58,4 @@ fr\tetelie\practice\event\DeathEvent.class
 fr\tetelie\practice\gui\Gui.class
 fr\tetelie\practice\event\PlaceBlockEvent.class
 fr\tetelie\practice\command\ArenaCommand.class
+fr\tetelie\practice\gui\guis\EditorGui.class
