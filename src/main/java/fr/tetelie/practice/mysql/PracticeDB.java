@@ -21,7 +21,7 @@ public class PracticeDB {
                 + "ID INT(64) NOT NULL AUTO_INCREMENT,"
                 + "name VARCHAR(16) NOT NULL,"
                 + "uuid VARCHAR(64) NOT NULL,"
-                + "settings VARCHAR(17) DEFAULT '0:0:0:0:0:0:0:0:0',"
+                + "settings VARCHAR(40) DEFAULT '0:0:0:0:0:0:0:0:0',"
                 + "elos VARCHAR(32) DEFAULT '1000',"
                 + "PRIMARY KEY (`ID`))";
         try {

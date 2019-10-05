@@ -2,6 +2,7 @@ package fr.tetelie.practice.event;
 
 import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.player.PlayerManager;
+import fr.tetelie.practice.setting.Setting;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +17,7 @@ public class JoinEvent implements Listener {
         Player player = e.getPlayer();
         e.setJoinMessage("§7[§6+§7] §e"+player.getName());
         PlayerManager playerManager = new PlayerManager(player.getUniqueId(), player.getName());
+        Setting.all[0].change(player, playerManager.getSettings()[0]);
         playerManager.reset(player, GameMode.SURVIVAL);
         playerManager.teleport(player, Practice.getInstance().spawn);
         playerManager.sendKit(Practice.getInstance().spawnKit);

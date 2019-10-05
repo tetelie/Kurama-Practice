@@ -2,6 +2,7 @@ package fr.tetelie.practice.quest;
 
 import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.event.custom.QuestCompleteEvent;
+import fr.tetelie.practice.quest.quests.ExampleQuest;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -12,11 +13,7 @@ import java.util.List;
 
 public abstract class Quest implements Listener {
 
-    private static List<Quest> all = new ArrayList<>();
-
-    static {
-        all = new ArrayList<>();
-    }
+    public static Quest[] all = new Quest[]{new ExampleQuest()};
 
     public abstract String name();
 
@@ -26,14 +23,6 @@ public abstract class Quest implements Listener {
 
     public Quest() {
         Bukkit.getPluginManager().registerEvents(this, Practice.getInstance());
-    }
-
-    public static List<Quest> getAll() {
-        return all;
-    }
-
-    public static void setAll(List<Quest> all) {
-        Quest.all = all;
     }
 
     public void finish(Player player)

@@ -12,6 +12,7 @@ import fr.tetelie.practice.gui.guis.DuelGui;
 import fr.tetelie.practice.gui.guis.EditorGui;
 import fr.tetelie.practice.gui.guis.FightGui;
 import fr.tetelie.practice.gui.guis.PanelGui;
+import fr.tetelie.practice.gui.models.QuestGui;
 import fr.tetelie.practice.gui.models.SettingsGui;
 import fr.tetelie.practice.inventory.FightInventory;
 import fr.tetelie.practice.inventory.Kit;
@@ -27,6 +28,8 @@ import fr.tetelie.practice.mysql.PracticeDB;
 import fr.tetelie.practice.fight.FightManager;
 import fr.tetelie.practice.party.PartyManager;
 import fr.tetelie.practice.player.PlayerManager;
+import fr.tetelie.practice.setting.Setting;
+import fr.tetelie.practice.setting.settings.Time;
 import fr.tetelie.practice.util.ItemBuilder;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
@@ -82,15 +85,14 @@ public @Getter class Practice extends JavaPlugin {
     public Gui panelGui = new PanelGui();
     public Gui duelGui = new DuelGui();
     public Gui editorGui = new EditorGui();
+
     // Models
     public Gui settingsGui = new SettingsGui();
+    public Gui questGui = new QuestGui();
 
     // Multiple Gui
     public GuiMultiPageManager spectateGui = new GuiMultiPageManager(new ArrayList<>(), "§6Spectate", new ItemBuilder(Material.COMPASS).setName("§6Spectate current fight(s)").toItemStack(), (byte)15);
     public GuiMultiPageManager eventGui = new GuiMultiPageManager(new ArrayList<>(), "§6Event", new ItemBuilder(Material.NETHER_STAR).setName("§6List of current event(s)").toItemStack(), (byte)0);
-
-    // Settings
-    private Map<Integer, String[]> settings = new HashMap<>();
 
     //Thread
     public Thread fightInventory;
@@ -114,7 +116,6 @@ public @Getter class Practice extends JavaPlugin {
         registerLocation();
         registerArena();
         registerThread();
-        setSettings();
         sendCreditMessage();
     }
 
@@ -249,20 +250,6 @@ public @Getter class Practice extends JavaPlugin {
                 ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "-----------------------------"
         };
         this.getServer().getConsoleSender().sendMessage(message);
-    }
-
-    public void setSettings()
-    {
-        String[] bool = new String[]{"allow", "deny"};
-        settings.put(0, new String[]{"sunrise", "day", "sunset", "night"}); // time
-        settings.put(1, bool); // private message
-        settings.put(2, new String[]{"none", "ping", "cps", "exp", "elo", "win chance"}); // opponent below name
-        settings.put(3, bool); // scoreboard
-        settings.put(4, bool); // duel request
-        settings.put(5, bool); // rematch item
-        settings.put(6, new String[]{"§1dark blue", "§2dark green", "§3dark aqua", "§4dark red", "§5dark purple", "§6gold", "§7light gray", "§8dark gray", "§9blue", "§alight green", "§blight aqua", "§clight green", "§dlight purple", "§eyellow", "§fwhite"}); // opponent tag color
-        settings.put(7,new String[]{"none", "ping", "cps", "exp", "global elo", "win chance"}); // exp bar
-        settings.put(8, new String[]{"none", "soon", "soon"}); // kill effect
     }
 
     public String formatTimer(int time)

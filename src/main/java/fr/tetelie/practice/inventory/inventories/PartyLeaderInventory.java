@@ -15,7 +15,7 @@ public class PartyLeaderInventory implements Kit {
                 new ItemBuilder(Material.DIAMOND_AXE).setUnBreakable().setName("§6§lDuel other party"+suffix).toItemStack(),
                 new ItemBuilder(Material.GOLD_AXE).setUnBreakable().setName("§6§lParty Event"+suffix).toItemStack(),
                 air,
-                new ItemBuilder(Material.WATCH).setName("§6§lManage party settings"+suffix).toItemStack(),
+                new ItemBuilder(Material.WATCH).setName("§6§lManage party setting"+suffix).toItemStack(),
                 air,
                 air,
                 new ItemBuilder(Material.NAME_TAG).setName("§6§lParty infos"+suffix).toItemStack(),

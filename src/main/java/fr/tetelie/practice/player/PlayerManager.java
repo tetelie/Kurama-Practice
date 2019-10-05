@@ -9,7 +9,7 @@ import fr.tetelie.practice.historic.HistoricManager;
 import fr.tetelie.practice.inventory.Kit;
 import fr.tetelie.practice.fight.FightType;
 import fr.tetelie.practice.match.MatchManager;
-import fr.tetelie.practice.player.settings.Settings;
+import fr.tetelie.practice.setting.Setting;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
 import lombok.Setter;
@@ -192,7 +192,7 @@ public @Getter @Setter class PlayerManager {
         if(Practice.getInstance().matchPreviewInventoryMap.containsKey(uuid)) Practice.getInstance().matchPreviewInventoryMap.get(uuid).destroy();
     }
 
-    // settings
+    // setting
     public Inventory getSettingsGui()
     {
         Inventory settings = Gui.clone(Practice.getInstance().settingsGui);
@@ -216,30 +216,28 @@ public @Getter @Setter class PlayerManager {
     private void refreshSettingsLoreGui(Inventory settingsInv)
     {
         int setting = 0;
-        for(Settings settings : Settings.values())
+        for(Setting settings : Setting.all)
         {
-            refreshSettingLore(settingsInv, settings.getSlot(), setting);
+            refreshSettingLore(settingsInv, settings.slot(), setting);
             setting++;
         }
     }
 
-    private String[] getSettingLore(int setting)
+    private String[] getSettingLore(int id)
     {
-        int value = this.settings[setting];
-        String[] lore = Practice.getInstance().getSettings().get(setting).clone();
-        lore[value] = "§e\u2192 " + Practice.getInstance().getSettings().get(setting)[value];
+        int value = this.settings[id];
+        Setting setting = Setting.all[id];
+        String[] lore = setting.values();
+        lore[value] = "§e\u2192 " + setting.values()[value];
         return lore;
     }
 
-    public void changeSettings(int setting)
+    public void changeSettings(int setting, Player player)
     {
         int currentValue = this.settings[setting];
-        if(Practice.getInstance().getSettings().get(setting).length <= currentValue+1)
-        {
-            this.settings[setting] = 0;
-        }else {
-            this.settings[setting] = this.settings[setting] + 1;
-        }
+        int newValue = Setting.all[setting].values().length <= currentValue+1 ? 0 : this.settings[setting] + 1;
+        this.settings[setting] = newValue;
+        Setting.all[setting].change(player, newValue);
     }
 
     public void destroy()

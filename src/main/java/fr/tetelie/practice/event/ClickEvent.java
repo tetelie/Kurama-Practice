@@ -4,12 +4,14 @@ import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.duel.DuelManager;
 import fr.tetelie.practice.fight.FightManager;
 import fr.tetelie.practice.fight.FightType;
+import fr.tetelie.practice.gui.Gui;
 import fr.tetelie.practice.match.MatchManager;
 import fr.tetelie.practice.match.MatchType;
 import fr.tetelie.practice.party.PartyManager;
 import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.player.PlayerSatus;
-import fr.tetelie.practice.player.settings.Settings;
+import fr.tetelie.practice.quest.Quest;
+import fr.tetelie.practice.setting.Setting;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -84,11 +86,19 @@ public class ClickEvent implements Listener {
                         }else if(current.getType() == Material.BOOK && current.getItemMeta().getDisplayName().equals("§eEditor"))
                         {
                             player.openInventory(Practice.getInstance().editorGui.inventory());
+                        }else if(current.getType() == Material.EMERALD && current.getItemMeta().getDisplayName().equals("§eQuests"))
+                        {
+                            Inventory quest = Gui.clone(Practice.getInstance().questGui);
+                            for(Quest questt : Quest.all)
+                            {
+                                quest.addItem(questt.iconItem());
+                            }
+                            player.openInventory(quest);
                         }
                     }else if(inventory.getName().equals("§6§lSettings"))
                     {
-                        int setting = Settings.getSettingsBySlot(e.getSlot()).getId();
-                        playerManager.changeSettings(setting);
+                        int setting = Setting.getSettingsBySlot(e.getSlot());
+                        playerManager.changeSettings(setting, player);
                         playerManager.refreshSettingLore(inventory, e.getSlot(), setting);
                     }
                 }
