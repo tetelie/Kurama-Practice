@@ -5,6 +5,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import fr.tetelie.practice.arena.ArenaManager;
 import fr.tetelie.practice.command.*;
+import fr.tetelie.practice.deatheffect.DeathEffect;
+import fr.tetelie.practice.deatheffect.deatheffects.SmokeEffect;
 import fr.tetelie.practice.event.*;
 import fr.tetelie.practice.gui.Gui;
 import fr.tetelie.practice.gui.GuiMultiPageManager;
@@ -71,6 +73,8 @@ public @Getter class Practice extends JavaPlugin {
     public Map<UUID, MatchPreviewInventory> matchPreviewInventoryMap = new HashMap<>();
     public Map<UUID, PartyManager> party = new HashMap<>();
 
+    public List<DeathEffect> deathEffects = new ArrayList<>();
+
     // Locations
     public LocationHelper spawn = new LocationHelper("spawn");
 
@@ -116,6 +120,7 @@ public @Getter class Practice extends JavaPlugin {
         registerLocation();
         registerArena();
         registerThread();
+        registerDeathEffect();
         sendCreditMessage();
     }
 
@@ -169,7 +174,8 @@ public @Getter class Practice extends JavaPlugin {
                 new PickupEvent(),
                 new ClickEvent(),
                 new BreakBlockEvent(),
-                new PlaceBlockEvent()
+                new PlaceBlockEvent(),
+                new RespawnEvent()
         ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 
@@ -221,6 +227,11 @@ public @Getter class Practice extends JavaPlugin {
         } else {
             System.out.println(prefix + "WARNING enter valid database information (" + configPath + ") \n You will not be able to access many features");
         }
+    }
+
+    private void registerDeathEffect()
+    {
+        deathEffects.add(new SmokeEffect());
     }
 
     private void setupHikariCP() {

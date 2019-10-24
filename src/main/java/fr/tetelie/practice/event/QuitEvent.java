@@ -17,7 +17,7 @@ public class QuitEvent implements Listener {
         e.setQuitMessage("§7[§c-§7] §e"+player.getName());
         PlayerManager playerManager = PlayerManager.getPlayerManagers().get(player.getUniqueId());
         if (playerManager.getPlayerSatus() == PlayerSatus.FIGHT && playerManager.getCurrentFight() != null) {
-            playerManager.getCurrentFight().end(MatchEndCause.DISCONECT, player, playerManager);
+            playerManager.getCurrentFight().end(MatchEndCause.DISCONECT, player, playerManager, player.getLocation());
         }
         playerManager.destroy();
     }

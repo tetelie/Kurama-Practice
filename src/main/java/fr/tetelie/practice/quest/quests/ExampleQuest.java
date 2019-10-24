@@ -12,7 +12,7 @@ public class ExampleQuest extends Quest {
 
     @Override
     public String name() {
-        return "Quète exemple";
+        return "Example Quest";
     }
 
     @Override

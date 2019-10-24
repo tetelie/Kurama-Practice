@@ -192,6 +192,39 @@ public @Getter @Setter class PlayerManager {
         if(Practice.getInstance().matchPreviewInventoryMap.containsKey(uuid)) Practice.getInstance().matchPreviewInventoryMap.get(uuid).destroy();
     }
 
+    public void hideAll(Player player)
+    {
+        /*for(Player p : Bukkit.getServer().getOnlinePlayers())
+        {
+            player.hidePlayer(p);
+        }*/
+    }
+
+    public void hideFromAll(Player player)
+    {
+        /*for(Player p : Bukkit.getServer().getOnlinePlayers())
+        {
+            p.hidePlayer(player);
+        }*/
+    }
+
+    public void showAll(Player player)
+    {
+        /*for(Player p : Bukkit.getServer().getOnlinePlayers())
+        {
+            player.showPlayer(p);
+        }*/
+    }
+
+    public void showFromAll(Player player)
+    {
+        /*for(Player p : Bukkit.getServer().getOnlinePlayers())
+        {
+            p.showPlayer(player);
+        }*/
+    }
+
+
     // setting
     public Inventory getSettingsGui()
     {

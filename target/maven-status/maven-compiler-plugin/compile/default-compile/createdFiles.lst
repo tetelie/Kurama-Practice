@@ -5,6 +5,7 @@ fr\tetelie\practice\event\DamageEvent.class
 fr\tetelie\practice\match\MatchManager$1.class
 fr\tetelie\practice\historic\HistoricManager.class
 fr\tetelie\practice\ladder\ladders\NoDebuff.class
+fr\tetelie\practice\util\ParticleApi.class
 fr\tetelie\practice\setting\Setting.class
 fr\tetelie\practice\event\InteractEvent.class
 fr\tetelie\practice\duel\DuelManager$1.class
@@ -65,7 +66,10 @@ fr\tetelie\practice\setting\settings\KillEffect.class
 fr\tetelie\practice\event\JoinEvent.class
 fr\tetelie\practice\event\DeathEvent.class
 fr\tetelie\practice\gui\Gui.class
+fr\tetelie\practice\deatheffect\DeathEffect.class
 fr\tetelie\practice\event\PlaceBlockEvent.class
 fr\tetelie\practice\setting\settings\RematchItem.class
 fr\tetelie\practice\command\ArenaCommand.class
+fr\tetelie\practice\event\RespawnEvent.class
 fr\tetelie\practice\gui\guis\EditorGui.class
+fr\tetelie\practice\deatheffect\deatheffects\SmokeEffect.class

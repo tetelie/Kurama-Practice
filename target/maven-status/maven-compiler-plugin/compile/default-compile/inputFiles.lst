@@ -12,9 +12,11 @@ C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\teteli
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\gui\guis\PanelGui.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\historic\HistoricManager.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\setting\settings\DuelRequest.java
+C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\gui\models\QuestGui.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\event\DamageEvent.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\match\MatchManager.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\event\PickupEvent.java
+C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\deatheffect\DeathEffect.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\inventory\inventories\PartyLeaderInventory.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\setting\settings\BelowName.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\gui\models\SettingsGui.java
@@ -29,6 +31,8 @@ C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\teteli
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\fight\FightManager.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\setting\settings\PrivateMessage.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\mysql\PracticeDB.java
+C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\util\ParticleApi.java
+C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\deatheffect\deatheffects\SmokeEffect.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\event\DropEvent.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\setting\settings\KillEffect.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\gui\Gui.java
@@ -64,3 +68,4 @@ C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\teteli
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\event\QuitEvent.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\command\DuelCommand.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\event\BreakBlockEvent.java
+C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\event\RespawnEvent.java

@@ -5,7 +5,8 @@ import org.bukkit.entity.Player;
 
 public abstract class Setting {
 
-    public static Setting[] all = new Setting[]{new Time(),
+    public static Setting[] all = new Setting[]{
+            new Time(),
             new PrivateMessage(),
             new BelowName(),
             new Scoreboard(),
