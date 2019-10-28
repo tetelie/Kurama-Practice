@@ -8,6 +8,7 @@ import fr.tetelie.practice.Practice;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.UUID;
 
 public class PracticeDB {
@@ -21,7 +22,9 @@ public class PracticeDB {
                 + "ID INT(64) NOT NULL AUTO_INCREMENT,"
                 + "name VARCHAR(16) NOT NULL,"
                 + "uuid VARCHAR(64) NOT NULL,"
+                + "login VARCHAR(64) NOT NULL,"
                 + "settings VARCHAR(40) DEFAULT '0:0:0:0:0:0:0:0:0',"
+                + "stats VARCHAR(40) DEFAULT '0:0:0:0:0',"
                 + "elos VARCHAR(32) DEFAULT '1000',"
                 + "PRIMARY KEY (`ID`))";
         try {
@@ -44,16 +47,16 @@ public class PracticeDB {
         return false;
     }
 
-    public boolean createPlayerManager(UUID uuid, String name)
+    public boolean createPlayerManager(UUID uuid, String name, String date)
     {
-        return DB.createTransaction(stm -> createPlayerManager(uuid, name, stm));
+        return DB.createTransaction(stm -> createPlayerManager(uuid, name, date, stm));
     }
 
-    private boolean createPlayerManager(UUID uuid, String name, DbStatement stm) {
-        String query = "INSERT INTO player_manager (uuid, name) " +
-                "VALUES (?, ?)";
+    private boolean createPlayerManager(UUID uuid, String name, String date, DbStatement stm) {
+        String query = "INSERT INTO player_manager (uuid, name, login) " +
+                "VALUES (?, ?, ?)";
         try {
-            return stm.executeUpdateQuery(query, uuid.toString(), name) > 0;
+            return stm.executeUpdateQuery(query, uuid.toString(), name, date) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }

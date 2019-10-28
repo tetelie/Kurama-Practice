@@ -1,5 +1,6 @@
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\quest\quests\ExampleQuest.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\gui\guis\DuelGui.java
+C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\gui\models\StatsGui.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\inventory\inventories\SpawnInventory.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\event\JoinEvent.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\command\ArenaCommand.java
@@ -51,6 +52,7 @@ C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\teteli
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\event\InteractEvent.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\inventory\FightInventory.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\player\PlayerManager.java
+C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\util\FakePlayerManager.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\duel\DuelManager.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\setting\settings\OpponentTagColor.java
 C:\Users\Elie\Documents\tetelie's workspace\RenaPractice\src\main\java\fr\tetelie\practice\ladder\ladders\NoDebuff.java

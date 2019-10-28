@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -39,6 +40,7 @@ public @Getter @Setter class PlayerManager {
     private HistoricManager historic = new HistoricManager("§6§lHistoric §f(Right click)", "§eRena Team");
     private MatchManager currentFight;
     private UUID currentDuelPlayer;
+    private String login;
 
     // Queue
     private String ladder;
@@ -66,7 +68,8 @@ public @Getter @Setter class PlayerManager {
 
     private void update(){
         if(!exist()) {
-            Practice.getInstance().practiceDB.createPlayerManager(uuid, name); // insert new table
+            login = Practice.getInstance().mediumDateFormatEN.format(new Date());
+            Practice.getInstance().practiceDB.createPlayerManager(uuid, name, login); // insert new table
         }else{
             Practice.getInstance().practiceDB.updatePlayerManager(name, uuid); // update name in corresponding uuid table
             load(); // load all mysql data
@@ -75,7 +78,9 @@ public @Getter @Setter class PlayerManager {
 
     private void load(){
         try {
+            login = DB.getFirstRow("SELECT login FROM player_manager WHERE name=?", name).getString("login");
             settings = getSplitValue(DB.getFirstRow("SELECT settings FROM player_manager WHERE name=?", name).getString("settings"), ":");
+            stats = getSplitValue(DB.getFirstRow("SELECT stats FROM player_manager WHERE name=?", name).getString("stats"), ":");
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -86,6 +91,8 @@ public @Getter @Setter class PlayerManager {
         try{
             String settings = getStringValue(this.settings, ":");
             DB.executeUpdate("UPDATE player_manager SET settings=? WHERE name=?", settings, name);
+            String stats = getStringValue(this.stats, ":");
+            DB.executeUpdate("UPDATE player_manager SET stats=? WHERE name=?", stats, name);
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -224,8 +231,63 @@ public @Getter @Setter class PlayerManager {
         }*/
     }
 
+    public ItemStack changeLore(ItemStack item, String... lore)
+    {
+        ItemMeta meta = item.getItemMeta();
+        meta.getLore().clear();
+        meta.setLore(Arrays.asList(lore));
+        item.setItemMeta(meta);
+        return item;
+    }
 
-    // setting
+    // stats
+    public Inventory getStatsGui()
+    {
+        String normal_win_chance = "-";
+        if(stats[0] > 0)
+        {
+            if(stats[1] == 0)
+            {
+                normal_win_chance = "100%";
+            }else {
+                double rate = (double)stats[0]/((double)stats[0]+(double)stats[1]);
+                normal_win_chance = rate*100 + "%";
+            }
+        }
+
+        String competitive_win_chance = "-";
+        if(stats[2] > 0)
+        {
+            if(stats[3] == 0)
+            {
+                competitive_win_chance = "100%";
+            }else {
+                if (stats[2] >= stats[3]) {
+                    competitive_win_chance = (double)stats[2]/((double)stats[2]+(double)stats[3]) + "%";
+                } else {
+                    competitive_win_chance = "0%";
+                }
+            }
+        }
+
+        Inventory stats = Gui.clone(Practice.getInstance().statsGui);
+        changeLore(stats.getItem(4), "§eExp§7: " + this.stats[4], "§eFirst login§7: " + login);
+        changeLore(stats.getItem(10),
+                "§eWin§7: " + this.stats[0],
+                "§eLose§7: " + this.stats[1],
+                "§eWin Chance§7: " + normal_win_chance
+                );
+
+        changeLore(stats.getItem(16),
+                "§eWin§7: " + this.stats[2],
+                "§eLose§7: " + this.stats[3],
+                "§eWin Chance§7: " + competitive_win_chance
+        );
+        changeLore(stats.getItem(22), "§7soon...");
+        return stats;
+    }
+
+    // settings
     public Inventory getSettingsGui()
     {
         Inventory settings = Gui.clone(Practice.getInstance().settingsGui);

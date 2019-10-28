@@ -134,6 +134,11 @@ public class MatchManager {
         player2.getInventory().clear();
         this.setMatchStatus(MatchStatus.FINISHING);
         if (cause == MatchEndCause.KILL) {
+
+            //stats
+            playerManager.getStats()[1] = playerManager.getStats()[1]+1;
+            playerManager2.getStats()[0] = playerManager.getStats()[0]+1;
+
             new MatchPreviewInventory(player);
             //player.teleport(player2.getLocation()); does'nt work
             player2.hidePlayer(player);

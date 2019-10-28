@@ -83,7 +83,11 @@ public class ClickEvent implements Listener {
                         }else if(current.getType() == Material.FERMENTED_SPIDER_EYE && current.getItemMeta().getDisplayName().equals("§eSettings"))
                         {
                             player.openInventory(playerManager.getSettingsGui());
-                        }else if(current.getType() == Material.BOOK && current.getItemMeta().getDisplayName().equals("§eEditor"))
+                        }else if(current.getType() == Material.BREWING_STAND_ITEM && current.getItemMeta().getDisplayName().equals("§eStatistics"))
+                        {
+                            player.openInventory(playerManager.getStatsGui());
+                        }
+                        else if(current.getType() == Material.BOOK && current.getItemMeta().getDisplayName().equals("§eEditor"))
                         {
                             player.openInventory(Practice.getInstance().editorGui.inventory());
                         }else if(current.getType() == Material.EMERALD && current.getItemMeta().getDisplayName().equals("§eQuests"))

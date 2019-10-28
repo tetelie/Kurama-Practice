@@ -1,4 +1,5 @@
 fr\tetelie\practice\setting\settings\PrivateMessage.class
+fr\tetelie\practice\gui\models\StatsGui.class
 fr\tetelie\practice\inventory\Kit.class
 fr\tetelie\practice\match\MatchStatus.class
 fr\tetelie\practice\event\DamageEvent.class
@@ -73,3 +74,4 @@ fr\tetelie\practice\command\ArenaCommand.class
 fr\tetelie\practice\event\RespawnEvent.class
 fr\tetelie\practice\gui\guis\EditorGui.class
 fr\tetelie\practice\deatheffect\deatheffects\SmokeEffect.class
+fr\tetelie\practice\util\FakePlayerManager.class

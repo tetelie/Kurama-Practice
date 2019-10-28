@@ -16,6 +16,7 @@ import fr.tetelie.practice.gui.guis.FightGui;
 import fr.tetelie.practice.gui.guis.PanelGui;
 import fr.tetelie.practice.gui.models.QuestGui;
 import fr.tetelie.practice.gui.models.SettingsGui;
+import fr.tetelie.practice.gui.models.StatsGui;
 import fr.tetelie.practice.inventory.FightInventory;
 import fr.tetelie.practice.inventory.Kit;
 import fr.tetelie.practice.inventory.MatchPreviewInventory;
@@ -32,9 +33,11 @@ import fr.tetelie.practice.party.PartyManager;
 import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.setting.Setting;
 import fr.tetelie.practice.setting.settings.Time;
+import fr.tetelie.practice.util.FakePlayerManager;
 import fr.tetelie.practice.util.ItemBuilder;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
+import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -49,6 +52,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.util.*;
 
 public @Getter class Practice extends JavaPlugin {
@@ -93,6 +97,7 @@ public @Getter class Practice extends JavaPlugin {
     // Models
     public Gui settingsGui = new SettingsGui();
     public Gui questGui = new QuestGui();
+    public Gui statsGui = new StatsGui();
 
     // Multiple Gui
     public GuiMultiPageManager spectateGui = new GuiMultiPageManager(new ArrayList<>(), "§6Spectate", new ItemBuilder(Material.COMPASS).setName("§6Spectate current fight(s)").toItemStack(), (byte)15);
@@ -104,6 +109,10 @@ public @Getter class Practice extends JavaPlugin {
     // Inventories
     public Inventory normalFight;
     public Inventory competitiveFight;
+
+    public DateFormat mediumDateFormatEN = DateFormat.getDateTimeInstance(
+            DateFormat.MEDIUM,
+            DateFormat.MEDIUM, new Locale("EN","en"));
 
     @Override
     public void onEnable() {
