@@ -12,3 +12,6 @@ commands:
     permission: practice.build
   duel:
   accept:
+  ping:
+  spectate:
+    aliases: [spec]

@@ -12,7 +12,7 @@ public class KillEffect extends Setting {
 
     @Override
     public String[] values() {
-        return new String[]{"none", "smoke", "soon"};
+        return new String[]{"none", "smoke"};
     }
 
     @Override

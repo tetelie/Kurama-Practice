@@ -13,6 +13,7 @@ import fr.tetelie.practice.player.PlayerSatus;
 import fr.tetelie.practice.quest.Quest;
 import fr.tetelie.practice.setting.Setting;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,14 +46,11 @@ public class ClickEvent implements Listener {
                             player.closeInventory();
                             FightManager fightManager = Practice.getInstance().fight.get(current.getItemMeta().getDisplayName());
                             if (fightManager.getQueue(FightType.NORMAL) == 1) {
-                                // TODO start match
-                                player.sendMessage("An opponent was found!");
                                 new MatchManager(MatchType.DUEL, fightManager.getQueuePlayer().get(FightType.NORMAL), player.getUniqueId(), FightType.NORMAL, current.getItemMeta().getDisplayName());
                             } else {
                                 playerManager.queue(current.getItemMeta().getDisplayName(), FightType.NORMAL);
                                 playerManager.setPlayerSatus(PlayerSatus.QUEUE);
                                 playerManager.sendKit(Practice.getInstance().queueKit);
-                                player.sendMessage("You are added to the queue");
                             }
                         }
                     } else if(inventory.getName().equals("§6Duel"))
@@ -73,6 +71,17 @@ public class ClickEvent implements Listener {
                         {
                             String str = current.getItemMeta().getLore().get(0).substring(7);
                             Practice.getInstance().spectateGui.open(player, Integer.parseInt(str));
+                        }else if(current.getType() == Material.LEVER && current.getItemMeta().getDisplayName().equals("§6Previous page") && current.getItemMeta().hasLore())
+                        {
+                            String str = current.getItemMeta().getLore().get(0).substring(7);
+                            Practice.getInstance().spectateGui.open(player, Integer.parseInt(str));
+                        }else if(current.getType() == Material.FEATHER)
+                        {
+                            String title = current.getItemMeta().getDisplayName();
+                            String arr[] = title.split(" ", 2);
+                            String first = arr[0];
+                            ChatColor.stripColor(first);
+                            Bukkit.dispatchCommand(player, "spec " + ChatColor.stripColor(first));
                         }
                     } else  if(inventory.getName().equals("§6Panel"))
                     {
@@ -106,6 +115,12 @@ public class ClickEvent implements Listener {
                         playerManager.refreshSettingLore(inventory, e.getSlot(), setting);
                     }
                 }
+            }else if(playerManager.getPlayerSatus() == PlayerSatus.QUEUE)
+            {
+                e.setCancelled(true);
+            }else if(playerManager.getPlayerSatus() == PlayerSatus.SPECTATE)
+            {
+                e.setCancelled(true);
             }
     }
 

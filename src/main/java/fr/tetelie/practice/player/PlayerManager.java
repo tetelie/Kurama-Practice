@@ -9,6 +9,7 @@ import fr.tetelie.practice.historic.HistoricManager;
 import fr.tetelie.practice.inventory.Kit;
 import fr.tetelie.practice.fight.FightType;
 import fr.tetelie.practice.match.MatchManager;
+import fr.tetelie.practice.match.MatchStatus;
 import fr.tetelie.practice.setting.Setting;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
@@ -41,6 +42,7 @@ public @Getter @Setter class PlayerManager {
     private MatchManager currentFight;
     private UUID currentDuelPlayer;
     private String login;
+    private int enderPearl = 0;
 
     // Queue
     private String ladder;
@@ -170,6 +172,51 @@ public @Getter @Setter class PlayerManager {
         player.setFlying(false);
     }
 
+    public void spectate(Player player, MatchManager matchManager)
+    {
+        if(matchManager.getMatchStatus() != MatchStatus.FINISHING) {
+            Player p1 = Bukkit.getPlayer(matchManager.getUuid1());
+            Player p2 = Bukkit.getPlayer(matchManager.getUuid2());
+            if (playerSatus == PlayerSatus.FREE) sendKit(Practice.getInstance().spectateKit);
+            if (!matchManager.getSpecs().contains(player.getUniqueId()))
+                matchManager.sendGlobalMessage("§6" + player.getName() + " §7is now spectating your match!", p1, p2);
+            if (playerSatus == PlayerSatus.SPECTATE) {
+                if (MatchManager.getMatchManagerBySpectator(player.getUniqueId()) != null) {
+                    if (MatchManager.getMatchManagerBySpectator(player.getUniqueId()) == matchManager) {
+                        unSpectate(player, false);
+                    } else {
+                        unSpectate(player, true);
+                    }
+                }
+            }
+
+            p1.hidePlayer(player);
+            p2.hidePlayer(player);
+            player.showPlayer(p1);
+            player.showPlayer(p2);
+            matchManager.getSpecs().add(player.getUniqueId());
+
+            this.playerSatus = PlayerSatus.SPECTATE;
+            player.setAllowFlight(true);
+            player.setFlying(true);
+            player.teleport(p1.getLocation().add(0, 2, 0));
+        }else{
+            player.sendMessage("§cSorry but this match is ended!");
+        }
+
+    }
+
+    public void unSpectate(Player player, boolean msg)
+    {
+        if(MatchManager.getMatchManagerBySpectator(player.getUniqueId()) != null) {
+            MatchManager old = MatchManager.getMatchManagerBySpectator(this.uuid);
+            Player p1 = Bukkit.getPlayer(old.getUuid1());
+            Player p2 = Bukkit.getPlayer(old.getUuid2());
+            if(msg)old.sendGlobalMessage("§6" + player.getName() + " §7is no longer spectating your match!", p1, p2);
+            if(old.getSpecs().contains(player.getUniqueId())) old.getSpecs().remove(player.getUniqueId());
+        }
+    }
+
     public void queue(String ladder, FightType fightType)
     {
         this.ladder = ladder;
@@ -201,34 +248,34 @@ public @Getter @Setter class PlayerManager {
 
     public void hideAll(Player player)
     {
-        /*for(Player p : Bukkit.getServer().getOnlinePlayers())
+        for(Player p : Bukkit.getServer().getOnlinePlayers())
         {
             player.hidePlayer(p);
-        }*/
+        }
     }
 
     public void hideFromAll(Player player)
     {
-        /*for(Player p : Bukkit.getServer().getOnlinePlayers())
+        for(Player p : Bukkit.getServer().getOnlinePlayers())
         {
             p.hidePlayer(player);
-        }*/
+        }
     }
 
     public void showAll(Player player)
     {
-        /*for(Player p : Bukkit.getServer().getOnlinePlayers())
+        for(Player p : Bukkit.getServer().getOnlinePlayers())
         {
             player.showPlayer(p);
-        }*/
+        }
     }
 
     public void showFromAll(Player player)
     {
-        /*for(Player p : Bukkit.getServer().getOnlinePlayers())
+        for(Player p : Bukkit.getServer().getOnlinePlayers())
         {
             p.showPlayer(player);
-        }*/
+        }
     }
 
     public ItemStack changeLore(ItemStack item, String... lore)

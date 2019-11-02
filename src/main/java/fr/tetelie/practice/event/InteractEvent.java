@@ -7,6 +7,7 @@ import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.player.PlayerSatus;
 import fr.tetelie.practice.util.ItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -90,6 +91,16 @@ public class InteractEvent implements Listener {
                         Practice.getInstance().party.get(player.getUniqueId()).destroy();
                         playerManager.sendKit(Practice.getInstance().spawnKit);
                         playerManager.setPlayerSatus(PlayerSatus.FREE);
+                    }
+                } else if(playerManager.getPlayerSatus() == PlayerSatus.SPECTATE)
+                {
+                    if(current.getType() == Material.INK_SACK && current.getItemMeta().getDisplayName().equals("§6Back to spawn"))
+                    {
+                        playerManager.unSpectate(player, true);
+                        playerManager.reset(player, GameMode.SURVIVAL);
+                        playerManager.setPlayerSatus(PlayerSatus.FREE);
+                        playerManager.sendKit(Practice.getInstance().spawnKit);
+                        playerManager.teleport(player, Practice.getInstance().spawn);
                     }
                 }
             }

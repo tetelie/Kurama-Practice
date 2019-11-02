@@ -15,7 +15,8 @@ public class JoinEvent implements Listener {
     public void onJoin(PlayerJoinEvent e)
     {
         Player player = e.getPlayer();
-        e.setJoinMessage("§7[§6+§7] §e"+player.getName());
+        //e.setJoinMessage("§7[§6+§7] §e"+player.getName());
+        e.setJoinMessage(null);
         PlayerManager playerManager = new PlayerManager(player.getUniqueId(), player.getName());
         Setting.all[0].change(player, playerManager.getSettings()[0]);
         playerManager.reset(player, GameMode.SURVIVAL);

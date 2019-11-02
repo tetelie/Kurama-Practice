@@ -39,7 +39,7 @@
         </dependency>
 
         <dependency>
-            <groupId>fr.tetelie</groupId>
+            <groupId>us.noks</groupId>
             <artifactId>MinecraftServer</artifactId>
             <version>1.7.10-SNAPSHOT</version>
             <scope>provided</scope>

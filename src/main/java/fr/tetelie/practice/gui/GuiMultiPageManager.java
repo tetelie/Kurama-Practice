@@ -55,6 +55,8 @@ public class GuiMultiPageManager {
 
     public void open(Player player, int page) {
         if(page <= 0 || page > inventories.length) return;
+        if(page == 1) inventories[page-1].setItem(45, new ItemStack(Material.AIR));
+        if(inventories.length == page) inventories[page-1].setItem(53, new ItemStack(Material.AIR));
         player.openInventory(inventories[page-1]);
     }
 

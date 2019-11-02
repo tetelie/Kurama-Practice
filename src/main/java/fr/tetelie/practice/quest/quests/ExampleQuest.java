@@ -22,7 +22,7 @@ public class ExampleQuest extends Quest {
 
     @Override
     public void giveReward(Player player) {
-        player.getInventory().addItem(new ItemStack(Material.BREAD));
+        //player.getInventory().addItem(new ItemStack(Material.BREAD));
     }
 
     @EventHandler

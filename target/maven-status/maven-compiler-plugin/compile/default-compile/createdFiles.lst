@@ -12,6 +12,7 @@ fr\tetelie\practice\event\InteractEvent.class
 fr\tetelie\practice\duel\DuelManager$1.class
 fr\tetelie\practice\duel\DuelManager.class
 fr\tetelie\practice\event\QuitEvent.class
+fr\tetelie\practice\inventory\inventories\SpectateInventory.class
 fr\tetelie\practice\inventory\inventories\QueueInventory.class
 fr\tetelie\practice\inventory\inventories\RespawnInventory.class
 fr\tetelie\practice\gui\models\SettingsGui.class
@@ -22,10 +23,12 @@ fr\tetelie\practice\event\BreakBlockEvent.class
 fr\tetelie\practice\gui\guis\FightGui.class
 fr\tetelie\practice\command\PracticeCommand.class
 fr\tetelie\practice\inventory\inventories\PartyLeaderInventory.class
+fr\tetelie\practice\event\WeatherEvent.class
 fr\tetelie\practice\quest\quests\ExampleQuest.class
 fr\tetelie\practice\setting\settings\Scoreboard.class
 fr\tetelie\practice\arena\ArenaManager.class
 fr\tetelie\practice\gui\GuiMultiPageManager.class
+fr\tetelie\practice\event\DamageByEntityEvent.class
 fr\tetelie\practice\Practice.class
 fr\tetelie\practice\fight\FightType.class
 fr\tetelie\practice\quest\Quest.class
@@ -45,11 +48,13 @@ fr\tetelie\practice\command\AcceptCommand.class
 fr\tetelie\practice\inventory\FightInventory.class
 fr\tetelie\practice\util\ItemBuilder.class
 fr\tetelie\practice\setting\settings\DuelRequest.class
+fr\tetelie\practice\event\EnderPearlEvent.class
 fr\tetelie\practice\inventory\inventories\SpawnInventory.class
 fr\tetelie\practice\event\FoodEvent.class
 fr\tetelie\practice\ladder\Ladder.class
 fr\tetelie\practice\gui\guis\PanelGui.class
 fr\tetelie\practice\setting\settings\ExpBar.class
+fr\tetelie\practice\event\EnderPearlEvent$1.class
 fr\tetelie\practice\match\MatchType.class
 fr\tetelie\practice\fight\FightManager.class
 fr\tetelie\practice\player\PlayerSatus.class
@@ -63,6 +68,7 @@ fr\tetelie\practice\event\DropEvent.class
 fr\tetelie\practice\match\MatchEndType.class
 fr\tetelie\practice\setting\settings\OpponentTagColor.class
 fr\tetelie\practice\gui\models\QuestGui.class
+fr\tetelie\practice\command\PingCommand.class
 fr\tetelie\practice\setting\settings\KillEffect.class
 fr\tetelie\practice\event\JoinEvent.class
 fr\tetelie\practice\event\DeathEvent.class
@@ -73,5 +79,6 @@ fr\tetelie\practice\setting\settings\RematchItem.class
 fr\tetelie\practice\command\ArenaCommand.class
 fr\tetelie\practice\event\RespawnEvent.class
 fr\tetelie\practice\gui\guis\EditorGui.class
+fr\tetelie\practice\command\SpectateCommand.class
 fr\tetelie\practice\deatheffect\deatheffects\SmokeEffect.class
 fr\tetelie\practice\util\FakePlayerManager.class

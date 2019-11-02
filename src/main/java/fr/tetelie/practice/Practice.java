@@ -20,10 +20,7 @@ import fr.tetelie.practice.gui.models.StatsGui;
 import fr.tetelie.practice.inventory.FightInventory;
 import fr.tetelie.practice.inventory.Kit;
 import fr.tetelie.practice.inventory.MatchPreviewInventory;
-import fr.tetelie.practice.inventory.inventories.PartyLeaderInventory;
-import fr.tetelie.practice.inventory.inventories.QueueInventory;
-import fr.tetelie.practice.inventory.inventories.RespawnInventory;
-import fr.tetelie.practice.inventory.inventories.SpawnInventory;
+import fr.tetelie.practice.inventory.inventories.*;
 import fr.tetelie.practice.ladder.Ladder;
 import fr.tetelie.practice.ladder.ladders.Debuff;
 import fr.tetelie.practice.ladder.ladders.NoDebuff;
@@ -87,6 +84,7 @@ public @Getter class Practice extends JavaPlugin {
     public Kit respawnKit = new RespawnInventory();
     public Kit queueKit = new QueueInventory();
     public Kit partyLeaderKit = new PartyLeaderInventory();
+    public Kit spectateKit = new SpectateInventory();
 
     // Guis
     public Gui fightGui = new FightGui();
@@ -169,6 +167,8 @@ public @Getter class Practice extends JavaPlugin {
         getCommand("build").setExecutor(new BuildCommand());
         getCommand("duel").setExecutor(new DuelCommand());
         getCommand("accept").setExecutor(new AcceptCommand());
+        getCommand("ping").setExecutor(new PingCommand());
+        getCommand("spectate").setExecutor(new SpectateCommand());
     }
 
     private void registerEvent() {
@@ -184,7 +184,10 @@ public @Getter class Practice extends JavaPlugin {
                 new ClickEvent(),
                 new BreakBlockEvent(),
                 new PlaceBlockEvent(),
-                new RespawnEvent()
+                new RespawnEvent(),
+                new EnderPearlEvent(),
+                new WeatherEvent(),
+                new DamageByEntityEvent()
         ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 

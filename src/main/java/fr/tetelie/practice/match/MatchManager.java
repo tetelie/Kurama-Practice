@@ -39,6 +39,7 @@ public class MatchManager {
     private String name2;
     private @Setter
     MatchStatus matchStatus = MatchStatus.STARTING;
+    private List<UUID> specs = new ArrayList<>();
     private FightType fightType;
     private ArenaManager arena;
     private Ladder ladder;
@@ -59,6 +60,8 @@ public class MatchManager {
         PlayerManager playerManager2 = PlayerManager.getPlayerManagers().get(uuid2);
         playerManager1.hideFromAll(player1);
         playerManager2.hideFromAll(player2);
+        playerManager1.reset(player1, GameMode.SURVIVAL);
+        playerManager2.reset(player2, GameMode.SURVIVAL);
         player1.showPlayer(player2);
         player2.showPlayer(player1);
         Ladder ladder = Ladder.getLadder(ladderDisplayName);
@@ -66,7 +69,6 @@ public class MatchManager {
         ArenaManager arena = ArenaManager.getRandomArena(ladder.arenaType());
         this.arena = arena;
         playerManager1.leaveQueue();
-        Bukkit.broadcastMessage("Create new match: matchtype: " + matchType.toString() + " fighttype:" + fightType.toString() + " ladder:" + ladder.name() + " arena:" + arena.getName());
         playerManager1.removePreviewInventory();
         playerManager2.removePreviewInventory();
         playerManager1.removeDuel();
@@ -212,16 +214,31 @@ public class MatchManager {
         }
     }
 
-    private void sendGlobalMessage(String message, Player... players) {
+    public void sendGlobalMessage(String message, Player... players) {
         for (Player player : players) player.sendMessage(message);
     }
 
-    private void sendGlobalMessage(String[] message, Player... players) {
+    public void sendGlobalMessage(String[] message, Player... players) {
         for (Player player : players) player.sendMessage(message);
     }
 
-    private void sendGlobalMessage(TextComponent message, Player... players) {
+    public void sendGlobalMessage(TextComponent message, Player... players) {
         for (Player player : players) player.spigot().sendMessage(message);
     }
 
+    public static MatchManager getMatchManager(UUID uuid)
+    {
+        return all.stream().filter(matchManager -> matchManager.getUuid1() == uuid || matchManager.getUuid2() == uuid).findFirst().orElse(null);
+    }
+
+    public static MatchManager getMatchManagerBySpectator(UUID uuid) {
+        for (MatchManager matchManager : all) {
+            for (UUID uid : matchManager.getSpecs()) {
+                if (uid.equals(uuid)) {
+                    return matchManager;
+                }
+            }
+        }
+        return null;
+    }
 }

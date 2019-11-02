@@ -28,7 +28,8 @@ public class DuelCommand implements CommandExecutor {
                 }
                 if (Bukkit.getPlayer(args[0]) != null) {
                     Player target = Bukkit.getPlayer(args[0]);
-                    if(playerManager.getPlayerSatus() == PlayerSatus.FREE)
+                    PlayerManager targetm = PlayerManager.getPlayerManagers().get(target.getUniqueId());
+                    if(targetm.getPlayerSatus() == PlayerSatus.FREE)
                     {
                         if(DuelManager.getDuelBySender(playerManager.getUuid()) != null) {
                             if (DuelManager.getDuelBySender(playerManager.getUuid()).getReciever() == target.getUniqueId()) {
