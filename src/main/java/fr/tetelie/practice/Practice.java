@@ -8,6 +8,7 @@ import fr.tetelie.practice.command.*;
 import fr.tetelie.practice.deatheffect.DeathEffect;
 import fr.tetelie.practice.deatheffect.deatheffects.SmokeEffect;
 import fr.tetelie.practice.event.*;
+import fr.tetelie.practice.fightpass.FightPass;
 import fr.tetelie.practice.gui.Gui;
 import fr.tetelie.practice.gui.GuiMultiPageManager;
 import fr.tetelie.practice.gui.guis.DuelGui;
@@ -129,6 +130,7 @@ public @Getter class Practice extends JavaPlugin {
         registerThread();
         registerDeathEffect();
         sendCreditMessage();
+        new FightPass();
     }
 
     @Override

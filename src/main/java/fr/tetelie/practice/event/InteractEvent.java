@@ -2,7 +2,9 @@ package fr.tetelie.practice.event;
 
 import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.fight.FightType;
+import fr.tetelie.practice.fightpass.FightPass;
 import fr.tetelie.practice.match.MatchManager;
+import fr.tetelie.practice.party.PartyManager;
 import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.player.PlayerSatus;
 import fr.tetelie.practice.util.ItemBuilder;
@@ -37,9 +39,10 @@ public class InteractEvent implements Listener {
                     if(current.getType() == Material.WOOD_SWORD && current.getItemMeta().getDisplayName().equals("§6§lFight §r§f(Right click)"))
                     {
                         player.openInventory(Practice.getInstance().fightGui.inventory());
-                    }else if(current.getType() == Material.CAULDRON_ITEM && current.getItemMeta().getDisplayName().equals("§6§lHistoric §r§f(Right click)"))
+                    }else if(current.getType() == Material.PAPER && current.getItemMeta().getDisplayName().equals("§6§lFight Pass §r§f(Right click)"))
                     {
-                        playerManager.getHistoric().open(player);
+                        //playerManager.getHistoric().open(player);
+                        FightPass.open(player, 0);
                     }else if(current.getType() == Material.PAINTING && current.getItemMeta().getDisplayName().equals("§6§lPanel §r§f(Right click)"))
                     {
                         player.openInventory(Practice.getInstance().panelGui.inventory());
@@ -72,9 +75,15 @@ public class InteractEvent implements Listener {
                         }
                         Practice.getInstance().spectateGui.refresh(matchs);
                         Practice.getInstance().spectateGui.open(player, 1);
-                    }else if(current.getType() == Material.NETHER_STAR && current.getItemMeta().getDisplayName().equals("§6§lEvent §r§f(Right click)"))
+                    }else if(current.getType() == Material.NAME_TAG && current.getItemMeta().getDisplayName().equals("§6§lCreate party §r§f(Right click)"))
                     {
-                        Practice.getInstance().eventGui.open(player, 1);
+                        //Practice.getInstance().eventGui.open(player, 1);
+                        player.closeInventory();
+                        new PartyManager(playerManager, player);
+                    }else if(current.getType() == Material.BOOK && current.getItemMeta().getDisplayName().equals("§6§lEdit kit §r§f(Right click)"))
+                    {
+                        //Practice.getInstance().eventGui.open(player, 1);
+                        player.openInventory(Practice.getInstance().editorGui.inventory());
                     }
                 }else if(playerManager.getPlayerSatus() == PlayerSatus.QUEUE)
                 {

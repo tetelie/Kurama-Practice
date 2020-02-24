@@ -23,7 +23,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -43,6 +42,7 @@ public @Getter @Setter class PlayerManager {
     private UUID currentDuelPlayer;
     private String login;
     private int enderPearl = 0;
+    private int fightpass = 0;
 
     // Queue
     private String ladder;
@@ -83,6 +83,7 @@ public @Getter @Setter class PlayerManager {
             login = DB.getFirstRow("SELECT login FROM player_manager WHERE name=?", name).getString("login");
             settings = getSplitValue(DB.getFirstRow("SELECT settings FROM player_manager WHERE name=?", name).getString("settings"), ":");
             stats = getSplitValue(DB.getFirstRow("SELECT stats FROM player_manager WHERE name=?", name).getString("stats"), ":");
+            fightpass = DB.getFirstRow("SELECT fight_pass FROM player_manager WHERE name=?", name).getInt("fight_pass");
         }catch (SQLException e)
         {
             e.printStackTrace();

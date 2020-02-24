@@ -3,6 +3,7 @@ fr\tetelie\practice\gui\models\StatsGui.class
 fr\tetelie\practice\inventory\Kit.class
 fr\tetelie\practice\match\MatchStatus.class
 fr\tetelie\practice\event\DamageEvent.class
+fr\tetelie\practice\fightpass\palliate\palliates\free\FreePalliate2.class
 fr\tetelie\practice\match\MatchManager$1.class
 fr\tetelie\practice\historic\HistoricManager.class
 fr\tetelie\practice\ladder\ladders\NoDebuff.class
@@ -18,6 +19,7 @@ fr\tetelie\practice\inventory\inventories\RespawnInventory.class
 fr\tetelie\practice\gui\models\SettingsGui.class
 fr\tetelie\practice\util\LocationHelper.class
 fr\tetelie\practice\event\ClickEvent.class
+fr\tetelie\practice\fightpass\palliate\palliates\premium\PremiumPalliate1.class
 fr\tetelie\practice\setting\settings\Time.class
 fr\tetelie\practice\event\BreakBlockEvent.class
 fr\tetelie\practice\gui\guis\FightGui.class
@@ -28,6 +30,7 @@ fr\tetelie\practice\quest\quests\ExampleQuest.class
 fr\tetelie\practice\setting\settings\Scoreboard.class
 fr\tetelie\practice\arena\ArenaManager.class
 fr\tetelie\practice\gui\GuiMultiPageManager.class
+fr\tetelie\practice\fightpass\palliate\Palliate.class
 fr\tetelie\practice\event\DamageByEntityEvent.class
 fr\tetelie\practice\Practice.class
 fr\tetelie\practice\fight\FightType.class
@@ -40,6 +43,7 @@ fr\tetelie\practice\event\custom\QuestCompleteEvent.class
 fr\tetelie\practice\match\MatchManager$2.class
 fr\tetelie\practice\mysql\PracticeDB.class
 fr\tetelie\practice\event\DropEvent$1.class
+fr\tetelie\practice\fightpass\palliate\palliates\free\FreePalliate1.class
 fr\tetelie\practice\command\BuildCommand.class
 fr\tetelie\practice\setting\settings\BelowName.class
 fr\tetelie\practice\arena\ArenaType.class
@@ -67,7 +71,9 @@ fr\tetelie\practice\ladder\ladders\Debuff.class
 fr\tetelie\practice\event\DropEvent.class
 fr\tetelie\practice\match\MatchEndType.class
 fr\tetelie\practice\setting\settings\OpponentTagColor.class
+fr\tetelie\practice\fightpass\FightPassType.class
 fr\tetelie\practice\gui\models\QuestGui.class
+fr\tetelie\practice\fightpass\FightPass.class
 fr\tetelie\practice\command\PingCommand.class
 fr\tetelie\practice\setting\settings\KillEffect.class
 fr\tetelie\practice\event\JoinEvent.class

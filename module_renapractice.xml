@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_renapractice" default="compile.module.renapractice">
+  <dirname property="module.renapractice.basedir" file="${ant.file.module_renapractice}"/>
+  
+  <property name="module.jdk.home.renapractice" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.renapractice" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.renapractice" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.renapractice" value="-encoding UTF-8 -source 8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="renapractice.output.dir" value="${module.renapractice.basedir}/target/classes"/>
+  <property name="renapractice.testoutput.dir" value="${module.renapractice.basedir}/target/test-classes"/>
+  
+  <path id="renapractice.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="renapractice.module.production.classpath">
+    <path refid="${module.jdk.classpath.renapractice}"/>
+    <path refid="library.maven:_com.zaxxer:hikaricp:2.4.1.classpath"/>
+    <path refid="library.maven:_us.noks:minecraftserver:1.7.10-snapshot.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.maven:_co.aikar:idb-core:1.0.0-snapshot.classpath"/>
+    <path refid="library.maven:_co.aikar:idb-bukkit:1.0.0-snapshot.classpath"/>
+    <path refid="library.maven:_org.projectlombok:lombok:1.16.18.classpath"/>
+  </path>
+  
+  <path id="renapractice.runtime.production.module.classpath">
+    <pathelement location="${renapractice.output.dir}"/>
+    <path refid="library.maven:_com.zaxxer:hikaricp:2.4.1.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.maven:_co.aikar:idb-core:1.0.0-snapshot.classpath"/>
+    <path refid="library.maven:_co.aikar:idb-bukkit:1.0.0-snapshot.classpath"/>
+  </path>
+  
+  <path id="renapractice.module.classpath">
+    <path refid="${module.jdk.classpath.renapractice}"/>
+    <pathelement location="${renapractice.output.dir}"/>
+    <path refid="library.maven:_com.zaxxer:hikaricp:2.4.1.classpath"/>
+    <path refid="library.maven:_us.noks:minecraftserver:1.7.10-snapshot.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.maven:_co.aikar:idb-core:1.0.0-snapshot.classpath"/>
+    <path refid="library.maven:_co.aikar:idb-bukkit:1.0.0-snapshot.classpath"/>
+    <path refid="library.maven:_org.projectlombok:lombok:1.16.18.classpath"/>
+  </path>
+  
+  <path id="renapractice.runtime.module.classpath">
+    <pathelement location="${renapractice.testoutput.dir}"/>
+    <pathelement location="${renapractice.output.dir}"/>
+    <path refid="library.maven:_com.zaxxer:hikaricp:2.4.1.classpath"/>
+    <path refid="library.maven:_us.noks:minecraftserver:1.7.10-snapshot.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.maven:_co.aikar:idb-core:1.0.0-snapshot.classpath"/>
+    <path refid="library.maven:_co.aikar:idb-bukkit:1.0.0-snapshot.classpath"/>
+    <path refid="library.maven:_org.projectlombok:lombok:1.16.18.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.renapractice">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.renapractice">
+    <patternset refid="excluded.from.module.renapractice"/>
+  </patternset>
+  
+  <path id="renapractice.module.sourcepath">
+    <dirset dir="${module.renapractice.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="renapractice.module.test.sourcepath">
+    <dirset dir="${module.renapractice.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.renapractice" depends="compile.module.renapractice.production,compile.module.renapractice.tests" description="Compile module RenaPractice"/>
+  
+  <target name="compile.module.renapractice.production" depends="register.custom.compilers" description="Compile module RenaPractice; production classes">
+    <mkdir dir="${renapractice.output.dir}"/>
+    <javac2 destdir="${renapractice.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.renapractice}/javac">
+      <compilerarg line="${compiler.args.renapractice}"/>
+      <bootclasspath refid="renapractice.module.bootclasspath"/>
+      <classpath refid="renapractice.module.production.classpath"/>
+      <src refid="renapractice.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.renapractice"/>
+    </javac2>
+    
+    <copy todir="${renapractice.output.dir}">
+      <fileset dir="${module.renapractice.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.renapractice.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.renapractice.tests" depends="register.custom.compilers,compile.module.renapractice.production" description="compile module RenaPractice; test classes" unless="skip.tests">
+    <mkdir dir="${renapractice.testoutput.dir}"/>
+    <javac2 destdir="${renapractice.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.renapractice}/javac">
+      <compilerarg line="${compiler.args.renapractice}"/>
+      <bootclasspath refid="renapractice.module.bootclasspath"/>
+      <classpath refid="renapractice.module.classpath"/>
+      <src refid="renapractice.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.renapractice"/>
+    </javac2>
+    
+    <copy todir="${renapractice.testoutput.dir}">
+      <fileset dir="${module.renapractice.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.renapractice" description="cleanup module">
+    <delete dir="${renapractice.output.dir}"/>
+    <delete dir="${renapractice.testoutput.dir}"/>
+  </target>
+</project>

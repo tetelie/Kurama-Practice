@@ -9,18 +9,20 @@ public class RespawnInventory implements Kit {
 
     String suffix = " §r§f(Right click)";
 
+
+
     @Override
     public ItemStack[] content() {
         return new ItemStack[]{
                 new ItemBuilder(Material.WOOD_SWORD).setUnBreakable().setName("§6§lFight"+suffix).toItemStack(),
-                new ItemBuilder(Material.FIRE).setName("§6§lRematch"+suffix).toItemStack(),
-                air,
-                new ItemBuilder(Material.CAULDRON_ITEM).setName("§6§lHistoric"+suffix).toItemStack(),
+                new ItemBuilder(Material.PAPER).setName("§6§lFight Pass"+suffix).toItemStack(),
                 air,
                 new ItemBuilder(Material.COMPASS).setName("§6§lSpectate"+suffix).toItemStack(),
+                new ItemBuilder(Material.FIRE).setName("§6§lRematch"+suffix).toItemStack(),
+                new ItemBuilder(Material.NAME_TAG).setName("§6§lCreate party"+suffix).toItemStack(),
                 air,
-                new ItemBuilder(Material.NETHER_STAR).setName("§6§lEvent"+suffix).toItemStack(),
-                new ItemBuilder(Material.PAINTING).setName("§6§lPanel"+suffix).toItemStack()
+                new ItemBuilder(Material.PAINTING).setName("§6§lPanel"+suffix).toItemStack(),
+                new ItemBuilder(Material.BOOK).setName("§6§lEdit kit"+suffix).toItemStack(),
         };
     }
 

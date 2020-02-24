@@ -23,9 +23,10 @@ public class PracticeDB {
                 + "name VARCHAR(16) NOT NULL,"
                 + "uuid VARCHAR(64) NOT NULL,"
                 + "login VARCHAR(64) NOT NULL,"
+                + "elos VARCHAR(32) DEFAULT '1000',"
                 + "settings VARCHAR(40) DEFAULT '0:0:0:0:0:0:0:0:0',"
                 + "stats VARCHAR(40) DEFAULT '0:0:0:0:0',"
-                + "elos VARCHAR(32) DEFAULT '1000',"
+                + "fight_pass INT(40) DEFAULT '0',"
                 + "PRIMARY KEY (`ID`))";
         try {
             DatabaseMetaData dbm = Practice.getInstance().getConnection().getMetaData();
