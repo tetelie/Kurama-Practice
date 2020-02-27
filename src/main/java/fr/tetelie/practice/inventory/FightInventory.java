@@ -36,11 +36,13 @@ public class FightInventory implements Runnable {
                 ItemStack current = Practice.getInstance().normalFight.getItem(slot);
                 ItemMeta meta = current.getItemMeta();
                 meta.setLore(Arrays.asList("§eIn Queue§7: §f" + Practice.getInstance().fight.get(ladder.displayName()).getQueue(FightType.NORMAL), "§eIn Fight§7: §f" + Practice.getInstance().fight.get(ladder.displayName()).getFight(FightType.NORMAL), " ", "§7Left click to join fight.", "§7Right click to view current match(s)."));
+                //current.setAmount(Practice.getInstance().fight.get(ladder.displayName()).getFight(FightType.NORMAL));
                 current.setItemMeta(meta);
 
                 ItemStack current2 = Practice.getInstance().competitiveFight.getItem(slot);
                 ItemMeta meta2 = current2.getItemMeta();
                 meta2.setLore(Arrays.asList("§eIn Queue§7: §f" + Practice.getInstance().fight.get(ladder.displayName()).getQueue(FightType.COMPETITIVE), "§eIn Fight§7: §f" + Practice.getInstance().fight.get(ladder.displayName()).getFight(FightType.COMPETITIVE), " ", "§7Left click to join fight.", "§7Right click to view current match(s)."));
+                //current2.setAmount(Practice.getInstance().fight.get(ladder.displayName()).getFight(FightType.COMPETITIVE));
                 current2.setItemMeta(meta2);
 
                 slot++;

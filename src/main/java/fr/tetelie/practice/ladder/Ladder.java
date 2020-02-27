@@ -11,6 +11,7 @@ public abstract class Ladder {
     public abstract Material material();
     public abstract byte data();
     public abstract ArenaType arenaType();
+    public abstract int id();
 
     // Kit editor
     public abstract boolean isAlterable();

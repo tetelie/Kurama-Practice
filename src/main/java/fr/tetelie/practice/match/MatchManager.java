@@ -69,6 +69,7 @@ public class MatchManager {
         ArenaManager arena = ArenaManager.getRandomArena(ladder.arenaType());
         this.arena = arena;
         playerManager1.leaveQueue();
+        playerManager2.leaveQueue();
         playerManager1.removePreviewInventory();
         playerManager2.removePreviewInventory();
         playerManager1.removeDuel();
@@ -77,10 +78,10 @@ public class MatchManager {
         playerManager2.setPlayerSatus(PlayerSatus.FIGHT);
         player1.teleport(arena.getLoc1());
         player2.teleport(arena.getLoc2());
-        player1.setNoDamageTicks(10);
-        player1.setMaximumNoDamageTicks(10);
-        player2.setNoDamageTicks(10);
-        player2.setMaximumNoDamageTicks(10);
+        player1.setNoDamageTicks(20);
+        player1.setMaximumNoDamageTicks(20);
+        player2.setNoDamageTicks(20);
+        player2.setMaximumNoDamageTicks(20);
         if (ladder instanceof Kit) {
             Kit kit = (Kit) ladder;
             playerManager1.sendKit(kit);
@@ -166,20 +167,33 @@ public class MatchManager {
                 //String inventoriesMessage = "§6Inventories§7(click to view)§6: §e" + player2.getName()+"§7, §e"+player.getName();
 
                 TextComponent inventoriesMessage = new TextComponent("§6Inventories§7(click to view)§6: §e");
-                TextComponent name1 = new TextComponent("§e" + player2.getName());
+                TextComponent name1 = new TextComponent("§a" + player2.getName());
                 name1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/inventory " + player2.getUniqueId()));
                 name1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eClick to view this inventory.").create()));
                 inventoriesMessage.addExtra(name1);
                 inventoriesMessage.addExtra("§7, §e");
-                TextComponent name2 = new TextComponent("§e" + player.getName());
+                TextComponent name2 = new TextComponent("§c" + player.getName());
                 name2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/inventory " + player.getUniqueId()));
                 name2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eClick to view this inventory.").create()));
                 inventoriesMessage.addExtra(name2);
 
-                sendGlobalMessage(resultMessage, player2);
+                //sendGlobalMessage(resultMessage, player2);
 
                 //replace soon
                 sendGlobalMessage(inventoriesMessage, player2);
+
+                if(fightType == FightType.COMPETITIVE)
+                {
+                    int eloChange = getEloDifference(playerManager2, playerManager, ladder);
+                    String eloChangeMessage = "§5New elo change §7» §d"+player2.getName()+" §7("+playerManager2.getElos()[ladder.id()] + "§7+§a"+eloChange+"§7), §d"+player.getName()+" §7("+playerManager.getElos()[ladder.id()] + "§7-§c"+eloChange+"§7)";
+                    player.sendMessage(eloChangeMessage);
+                    player2.sendMessage(eloChangeMessage);
+                    playerManager2.getElos()[ladder.id()] = playerManager2.getElos()[ladder.id()]+eloChange;
+                    playerManager.getElos()[ladder.id()] = playerManager.getElos()[ladder.id()]-eloChange;
+                }
+
+
+
 
                 playerManager2.reset(player2, GameMode.SURVIVAL);
                 playerManager2.teleport(player2, Practice.getInstance().spawn);
@@ -197,6 +211,18 @@ public class MatchManager {
                 } else {
                     playerManager2.sendKit(Practice.getInstance().spawnKit);
                 }
+
+                for(UUID spectators : specs)
+                {
+                    Player spec = Bukkit.getPlayer(spectators);
+                    PlayerManager specm = PlayerManager.getPlayerManagers().get(spectators);
+                    //specm.unSpectate(spec, true);
+                    specm.reset(spec, GameMode.SURVIVAL);
+                    specm.setPlayerSatus(PlayerSatus.FREE);
+                    specm.sendKit(Practice.getInstance().spawnKit);
+                    specm.teleport(spec, Practice.getInstance().spawn);
+                }
+
             }
         }, 60);
 
@@ -240,5 +266,18 @@ public class MatchManager {
             }
         }
         return null;
+    }
+
+    private int getEloDifference(final PlayerManager winner, final PlayerManager loser, final Ladder ladder) {
+        final int difference = loser.getElos()[ladder.id()] - winner.getElos()[ladder.id()];
+        if (difference >= 16) {
+            return 16;
+        }
+        if (difference <= 5) {
+            return 5;
+        }
+
+        return difference;
+
     }
 }

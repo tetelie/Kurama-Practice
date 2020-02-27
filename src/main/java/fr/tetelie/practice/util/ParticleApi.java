@@ -1,5 +1,6 @@
 package fr.tetelie.practice.util;
 
+import fr.tetelie.practice.Practice;
 import net.minecraft.server.v1_7_R4.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,7 +23,7 @@ public class ParticleApi {
     }
 
     public void sendToAll() {
-        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(this.packet);
         }
     }

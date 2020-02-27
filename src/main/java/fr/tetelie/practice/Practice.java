@@ -8,6 +8,7 @@ import fr.tetelie.practice.command.*;
 import fr.tetelie.practice.deatheffect.DeathEffect;
 import fr.tetelie.practice.deatheffect.deatheffects.SmokeEffect;
 import fr.tetelie.practice.event.*;
+import fr.tetelie.practice.fight.FightType;
 import fr.tetelie.practice.fightpass.FightPass;
 import fr.tetelie.practice.gui.Gui;
 import fr.tetelie.practice.gui.GuiMultiPageManager;
@@ -25,6 +26,8 @@ import fr.tetelie.practice.inventory.inventories.*;
 import fr.tetelie.practice.ladder.Ladder;
 import fr.tetelie.practice.ladder.ladders.Debuff;
 import fr.tetelie.practice.ladder.ladders.NoDebuff;
+import fr.tetelie.practice.match.MatchManager;
+import fr.tetelie.practice.match.MatchType;
 import fr.tetelie.practice.mysql.PracticeDB;
 import fr.tetelie.practice.fight.FightManager;
 import fr.tetelie.practice.party.PartyManager;
@@ -46,6 +49,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.File;
 import java.io.IOException;
@@ -129,10 +133,11 @@ public @Getter class Practice extends JavaPlugin {
         registerFile();
         registerLocation();
         registerArena();
-        registerThread();
         registerDeathEffect();
         sendCreditMessage();
         new FightPass();
+        registerThread();
+        registerRankedTask();
     }
 
     @Override
@@ -173,6 +178,7 @@ public @Getter class Practice extends JavaPlugin {
         getCommand("accept").setExecutor(new AcceptCommand());
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("spectate").setExecutor(new SpectateCommand());
+        getCommand("elo").setExecutor(new EloCommand());
     }
 
     private void registerEvent() {
@@ -236,8 +242,41 @@ public @Getter class Practice extends JavaPlugin {
         fightInventory = new Thread(new FightInventory());
         fightInventory.start();
 
-        rankedMatchmaking = new Thread(new Ranked());
-        rankedMatchmaking.start();
+        //rankedMatchmaking = new Thread(new Ranked());
+        //rankedMatchmaking.start();
+    }
+
+    private void registerRankedTask()
+    {
+        BukkitScheduler scheduler = getServer().getScheduler();
+        scheduler.scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Ranked Thread");
+                for(Ladder ladder : Practice.getInstance().ladders)
+                {
+                    FightManager fightManager = Practice.getInstance().fight.get(ladder.displayName());
+                    if(fightManager != null && fightManager.getRankedQueuePlayer().size() >= 2)
+                    {
+                        PlayerManager playerManager0 = fightManager.getRankedQueuePlayer().get(0);
+                        for(PlayerManager playerManager : fightManager.getRankedQueuePlayer())
+                        {
+                            if(Ranked.checkCompatibilityElo(playerManager0, playerManager, ladder))
+                            {
+                                new MatchManager(MatchType.DUEL, playerManager0.getUuid(), playerManager.getUuid(), FightType.COMPETITIVE, ladder.displayName());
+                                break;
+                            }
+                        }
+                        /*if(checkCompatibilityElo(playerManager0, playerManager, ladder))
+                        {
+                            Bukkit.broadcastMessage("Match found: elo1 =" + playerManager0.getElos()[ladder.id()] +" | elo2 = " + playerManager.getElos()[ladder.id()]);
+                        }
+                        i++;
+                    }*/
+                    }
+                }
+            }
+        }, 0L, 20L);
     }
 
     private void setupDatabase() {

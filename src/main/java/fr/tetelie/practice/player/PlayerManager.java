@@ -35,7 +35,7 @@ public @Getter @Setter class PlayerManager {
     private UUID uuid;
     private String name;
     private int[] settings = new int[9];
-    private int[] elos = new int[1];
+    private int[] elos = new int[Practice.getInstance().getLadders().size()];
     private int[] stats = new int[5]; // normal win|lose, competitive win|lose, exp
     private Ranked ranked = new Ranked();
     private PlayerSatus playerSatus = PlayerSatus.FREE;
@@ -86,6 +86,7 @@ public @Getter @Setter class PlayerManager {
             settings = getSplitValue(DB.getFirstRow("SELECT settings FROM player_manager WHERE name=?", name).getString("settings"), ":");
             stats = getSplitValue(DB.getFirstRow("SELECT stats FROM player_manager WHERE name=?", name).getString("stats"), ":");
             fightpass = DB.getFirstRow("SELECT fight_pass FROM player_manager WHERE name=?", name).getInt("fight_pass");
+            elos = getSplitValue(DB.getFirstRow("SELECT elos FROM player_manager WHERE name=?", name).getString("elos"), ":");
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -98,6 +99,8 @@ public @Getter @Setter class PlayerManager {
             DB.executeUpdate("UPDATE player_manager SET settings=? WHERE name=?", settings, name);
             String stats = getStringValue(this.stats, ":");
             DB.executeUpdate("UPDATE player_manager SET stats=? WHERE name=?", stats, name);
+            String elos = getStringValue(this.elos, ":");
+            DB.executeUpdate("UPDATE player_manager SET elos=? WHERE name=?", elos, name);
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -264,7 +267,7 @@ public @Getter @Setter class PlayerManager {
 
     public void hideAll(Player player)
     {
-        for(Player p : Bukkit.getServer().getOnlinePlayers())
+        for(Player p : Bukkit.getOnlinePlayers())
         {
             player.hidePlayer(p);
         }
@@ -272,7 +275,7 @@ public @Getter @Setter class PlayerManager {
 
     public void hideFromAll(Player player)
     {
-        for(Player p : Bukkit.getServer().getOnlinePlayers())
+        for(Player p : Bukkit.getOnlinePlayers())
         {
             p.hidePlayer(player);
         }
@@ -280,7 +283,7 @@ public @Getter @Setter class PlayerManager {
 
     public void showAll(Player player)
     {
-        for(Player p : Bukkit.getServer().getOnlinePlayers())
+        for(Player p : Bukkit.getOnlinePlayers())
         {
             player.showPlayer(p);
         }
@@ -288,7 +291,7 @@ public @Getter @Setter class PlayerManager {
 
     public void showFromAll(Player player)
     {
-        for(Player p : Bukkit.getServer().getOnlinePlayers())
+        for(Player p : Bukkit.getOnlinePlayers())
         {
             p.showPlayer(player);
         }

@@ -8,11 +8,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class SpectateInventory implements Kit {
 
+    String suffix = " §r§f(Right click)";
+
     @Override
     public ItemStack[] content() {
         return new ItemStack[]{
-                air,
-                new ItemBuilder(Material.INK_SACK, 1, (byte)11).setName("§6Back to spawn").addEnchant(Enchantment.DURABILITY, 1).toItemStack()
+                new ItemBuilder(Material.COMPASS).setName("§6§lSpectate"+suffix).toItemStack(),
+                new ItemBuilder(Material.INK_SACK, 1, (byte)11).setName("§6Back to spawn"+suffix).addEnchant(Enchantment.DURABILITY, 1).toItemStack()
         };
     }
 

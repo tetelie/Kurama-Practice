@@ -34,7 +34,26 @@ public class InteractEvent implements Listener {
             if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
                 Player player = e.getPlayer();
                 PlayerManager playerManager = PlayerManager.getPlayerManagers().get(player.getUniqueId());
-                if(playerManager.getPlayerSatus() == PlayerSatus.FREE)
+                if(current.getType() == Material.COMPASS && current.getItemMeta().getDisplayName().equals("§6§lSpectate §r§f(Right click)") && (playerManager.getPlayerSatus() == PlayerSatus.FREE || playerManager.getPlayerSatus() == PlayerSatus.SPECTATE))
+                {
+                    List<ItemStack> matchs = new ArrayList<>();
+                    for (MatchManager matchManager : MatchManager.getAll()) {
+                        ItemBuilder item = matchManager.getFightType() == FightType.NORMAL ? new ItemBuilder(Material.FEATHER) : new ItemBuilder(Material.EXP_BOTTLE);
+                        item.setName("§6"+ matchManager.getName1() + " §evs §6" + matchManager.getName2());
+                        List<String> lore = new ArrayList<>();
+                        lore.add(" ");
+                        lore.add("§6Type§7: §e"+matchManager.getFightType().toString().toLowerCase());
+                        lore.add("§6Ladder§7: §e"+matchManager.getLadder().name());
+                        lore.add("§6Arena§7: §e"+matchManager.getArena().getName());
+                        lore.add("§6Status§7: §e"+matchManager.getMatchStatus().toString().toLowerCase());
+                        lore.add("§6Duration§7: §e"+ matchManager.getDuration());
+                        item.setLore(lore);
+                        matchs.add(item.toItemStack());
+                    }
+                    Practice.getInstance().spectateGui.refresh(matchs);
+                    Practice.getInstance().spectateGui.open(player, 1);
+                }
+                else if(playerManager.getPlayerSatus() == PlayerSatus.FREE)
                 {
                     e.setCancelled(true);
                     if(current.getType() == Material.WOOD_SWORD && current.getItemMeta().getDisplayName().equals("§6§lFight §r§f(Right click)"))

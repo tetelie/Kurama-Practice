@@ -1,5 +1,6 @@
 package fr.tetelie.practice.util;
 
+import fr.tetelie.practice.Practice;
 import lombok.Getter;
 import net.minecraft.server.v1_7_R4.*;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
@@ -29,14 +30,14 @@ import java.util.UUID;
 
     public void remove() {
 
-        for (Player p : Bukkit.getServer().getOnlinePlayers())
+        for (Player p : Bukkit.getOnlinePlayers())
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityDestroy());
 
     }
 
     public FakePlayerManager update() {
 
-        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityDestroy(ep.getId()));
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(new PacketPlayOutNamedEntitySpawn(ep));
 
@@ -49,7 +50,7 @@ import java.util.UUID;
     @SuppressWarnings("deprecation")
     public FakePlayerManager look(byte yaw, byte pitch) {
 
-        for (Player p : Bukkit.getServer().getOnlinePlayers())
+        for (Player p : Bukkit.getOnlinePlayers())
             ((CraftPlayer) p).getHandle().playerConnection
                     .sendPacket(new PacketPlayOutEntityLook(ep.getId(), (byte) (yaw * 256F / 360F), pitch, false));
 
@@ -59,7 +60,7 @@ import java.util.UUID;
 
     public FakePlayerManager head(byte yaw) {
 
-        for (Player p : Bukkit.getServer().getOnlinePlayers())
+        for (Player p : Bukkit.getOnlinePlayers())
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityHeadRotation(ep, (byte) yaw));
 
 
@@ -70,7 +71,7 @@ import java.util.UUID;
 
     public FakePlayerManager death() {
 
-        for (Player p : Bukkit.getServer().getOnlinePlayers())
+        for (Player p : Bukkit.getOnlinePlayers())
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityStatus(ep, (byte) 3));
 
         return this;

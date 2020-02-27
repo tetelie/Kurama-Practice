@@ -75,15 +75,15 @@
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>us.noks</groupId>
-      <artifactId>MinecraftServer</artifactId>
-      <version>1.7.10-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.16.18</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sathonay</groupId>
+      <artifactId>MinecraftServer</artifactId>
+      <version>1.7.10-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
