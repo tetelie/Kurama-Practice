@@ -9,6 +9,7 @@ import fr.tetelie.practice.player.PlayerManager;
 import fr.tetelie.practice.player.PlayerSatus;
 import fr.tetelie.practice.util.ItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -89,6 +90,8 @@ public class InteractEvent implements Listener {
                 {
                     if(current.getType() == Material.INK_SACK && current.getItemMeta().getDisplayName().equals("§6Leave the queue."))
                     {
+                        String type = playerManager.getFightType() == FightType.NORMAL ? "Unranked" : "Ranked";
+                        player.sendMessage("§dYou are no longer queued for §5"+type+" "+ ChatColor.stripColor(playerManager.getLadder()));
                         playerManager.leaveQueue();
                         playerManager.setPlayerSatus(PlayerSatus.FREE);
                         playerManager.sendKit(Practice.getInstance().spawnKit);

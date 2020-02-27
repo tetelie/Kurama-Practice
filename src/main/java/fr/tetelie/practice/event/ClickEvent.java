@@ -45,14 +45,23 @@ public class ClickEvent implements Listener {
                         if (Practice.getInstance().fight.containsKey(current.getItemMeta().getDisplayName())) {
                             player.closeInventory();
                             FightManager fightManager = Practice.getInstance().fight.get(current.getItemMeta().getDisplayName());
+                            player.sendMessage("§dYou are now queued for §5UnRanked " + ChatColor.stripColor(current.getItemMeta().getDisplayName()));
                             if (fightManager.getQueue(FightType.NORMAL) == 1) {
-                                new MatchManager(MatchType.DUEL, fightManager.getQueuePlayer().get(FightType.NORMAL), player.getUniqueId(), FightType.NORMAL, current.getItemMeta().getDisplayName());
+                                new MatchManager(MatchType.DUEL, fightManager.getNormalQueuePlayer(), player.getUniqueId(), FightType.NORMAL, current.getItemMeta().getDisplayName());
                             } else {
                                 playerManager.queue(current.getItemMeta().getDisplayName(), FightType.NORMAL);
                                 playerManager.setPlayerSatus(PlayerSatus.QUEUE);
                                 playerManager.sendKit(Practice.getInstance().queueKit);
                             }
                         }
+                    } else if (inventory.getName().equals("§6Competitive Fight")) {
+                        player.closeInventory();
+                        playerManager.queue(current.getItemMeta().getDisplayName(), FightType.COMPETITIVE);
+                        playerManager.setPlayerSatus(PlayerSatus.QUEUE);
+                        playerManager.sendKit(Practice.getInstance().queueKit);
+                        player.sendMessage("§dYou are now queued for §5Ranked " + ChatColor.stripColor(current.getItemMeta().getDisplayName()));
+                        playerManager.getRanked().start(playerManager, player);
+
                     } else if(inventory.getName().equals("§6Duel"))
                     {
                         if(playerManager.getCurrentDuelPlayer() != null && Bukkit.getPlayer(playerManager.getCurrentDuelPlayer()) != null) {

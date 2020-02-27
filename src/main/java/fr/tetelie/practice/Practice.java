@@ -29,6 +29,7 @@ import fr.tetelie.practice.mysql.PracticeDB;
 import fr.tetelie.practice.fight.FightManager;
 import fr.tetelie.practice.party.PartyManager;
 import fr.tetelie.practice.player.PlayerManager;
+import fr.tetelie.practice.ranked.Ranked;
 import fr.tetelie.practice.setting.Setting;
 import fr.tetelie.practice.setting.settings.Time;
 import fr.tetelie.practice.util.FakePlayerManager;
@@ -104,6 +105,7 @@ public @Getter class Practice extends JavaPlugin {
 
     //Thread
     public Thread fightInventory;
+    public Thread rankedMatchmaking;
 
     // Inventories
     public Inventory normalFight;
@@ -233,6 +235,9 @@ public @Getter class Practice extends JavaPlugin {
     {
         fightInventory = new Thread(new FightInventory());
         fightInventory.start();
+
+        rankedMatchmaking = new Thread(new Ranked());
+        rankedMatchmaking.start();
     }
 
     private void setupDatabase() {

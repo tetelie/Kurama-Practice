@@ -28,6 +28,7 @@ fr\tetelie\practice\inventory\inventories\PartyLeaderInventory.class
 fr\tetelie\practice\event\WeatherEvent.class
 fr\tetelie\practice\quest\quests\ExampleQuest.class
 fr\tetelie\practice\setting\settings\Scoreboard.class
+fr\tetelie\practice\ranked\Ranked$1.class
 fr\tetelie\practice\arena\ArenaManager.class
 fr\tetelie\practice\gui\GuiMultiPageManager.class
 fr\tetelie\practice\fightpass\palliate\Palliate.class
@@ -44,6 +45,7 @@ fr\tetelie\practice\match\MatchManager$2.class
 fr\tetelie\practice\mysql\PracticeDB.class
 fr\tetelie\practice\event\DropEvent$1.class
 fr\tetelie\practice\fightpass\palliate\palliates\free\FreePalliate1.class
+fr\tetelie\practice\ranked\Ranked.class
 fr\tetelie\practice\command\BuildCommand.class
 fr\tetelie\practice\setting\settings\BelowName.class
 fr\tetelie\practice\arena\ArenaType.class

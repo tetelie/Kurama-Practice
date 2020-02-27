@@ -10,6 +10,7 @@ import fr.tetelie.practice.inventory.Kit;
 import fr.tetelie.practice.fight.FightType;
 import fr.tetelie.practice.match.MatchManager;
 import fr.tetelie.practice.match.MatchStatus;
+import fr.tetelie.practice.ranked.Ranked;
 import fr.tetelie.practice.setting.Setting;
 import fr.tetelie.practice.util.LocationHelper;
 import lombok.Getter;
@@ -36,6 +37,7 @@ public @Getter @Setter class PlayerManager {
     private int[] settings = new int[9];
     private int[] elos = new int[1];
     private int[] stats = new int[5]; // normal win|lose, competitive win|lose, exp
+    private Ranked ranked = new Ranked();
     private PlayerSatus playerSatus = PlayerSatus.FREE;
     private HistoricManager historic = new HistoricManager("§6§lHistoric §f(Right click)", "§eRena Team");
     private MatchManager currentFight;
@@ -222,18 +224,31 @@ public @Getter @Setter class PlayerManager {
     {
         this.ladder = ladder;
         this.fightType = fightType;
-        Practice.getInstance().fight.get(ladder).getQueuePlayer().put(fightType, uuid);
+        if(fightType == FightType.COMPETITIVE)
+        {
+            Practice.getInstance().fight.get(ladder).getRankedQueuePlayer().add(this);
+        }else{
+            Practice.getInstance().fight.get(ladder).setNormalQueuePlayer(uuid);
+        }
     }
 
     public void leaveQueue()
     {
         FightManager fightManager = Practice.getInstance().fight.get(ladder);
-        if(fightManager != null && fightManager.getQueuePlayer().containsKey(fightType) && fightManager.getQueuePlayer().get(fightType) != null && fightManager.getQueuePlayer().get(fightType) == this.uuid)
-        {
-            fightManager.getQueuePlayer().put(fightType, null);
+            System.out.println(fightType);
+            if(fightType == FightType.COMPETITIVE)
+            {
+                ranked.stop();
+                if(fightManager.getRankedQueuePlayer().contains(this)) {
+                    fightManager.getRankedQueuePlayer().remove(this);
+                }
+            }else {
+                if (fightManager != null && fightManager.getNormalQueuePlayer() != null && fightManager.getNormalQueuePlayer() == this.uuid){
+                    fightManager.setNormalQueuePlayer(null);
+                }
+            }
             this.ladder = null;
             this.fightType = null;
-        }
     }
 
     public void removeDuel()
@@ -390,6 +405,11 @@ public @Getter @Setter class PlayerManager {
         save(); // save all local data in database
         removePreviewInventory();
         playerManagers.remove(uuid);
+    }
+
+    public Ranked getRanked()
+    {
+        return this.ranked;
     }
 
 }
