@@ -2,14 +2,10 @@ package fr.tetelie.practice.command;
 
 import fr.tetelie.practice.Practice;
 import fr.tetelie.practice.player.PlayerManager;
-import fr.tetelie.practice.player.PlayerSatus;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class EloCommand implements CommandExecutor {
 

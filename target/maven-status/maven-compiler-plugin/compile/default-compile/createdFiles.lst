@@ -48,12 +48,14 @@ fr\tetelie\practice\deatheffect\DeathEffect.class
 fr\tetelie\practice\event\PlaceBlockEvent.class
 fr\tetelie\practice\setting\settings\RematchItem.class
 fr\tetelie\practice\gui\guis\EditorGui.class
+fr\tetelie\practice\inventory\LeaderboardInventory.class
 fr\tetelie\practice\setting\settings\PrivateMessage.class
 fr\tetelie\practice\gui\models\StatsGui.class
 fr\tetelie\practice\event\DamageEvent.class
 fr\tetelie\practice\util\ParticleApi.class
 fr\tetelie\practice\setting\Setting.class
 fr\tetelie\practice\inventory\inventories\SpectateInventory.class
+fr\tetelie\practice\leaderboard\Top.class
 fr\tetelie\practice\inventory\inventories\QueueInventory.class
 fr\tetelie\practice\fightpass\palliate\palliates\premium\PremiumPalliate1.class
 fr\tetelie\practice\event\BreakBlockEvent.class
@@ -87,6 +89,7 @@ fr\tetelie\practice\fightpass\FightPass.class
 fr\tetelie\practice\event\JoinEvent.class
 fr\tetelie\practice\event\DeathEvent.class
 fr\tetelie\practice\gui\Gui.class
+fr\tetelie\practice\leaderboard\Leaderboard.class
 fr\tetelie\practice\command\ArenaCommand.class
 fr\tetelie\practice\event\RespawnEvent.class
 fr\tetelie\practice\command\SpectateCommand.class

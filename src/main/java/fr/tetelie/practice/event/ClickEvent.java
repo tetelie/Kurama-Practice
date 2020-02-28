@@ -32,6 +32,7 @@ public class ClickEvent implements Listener {
         Player player = (Player) e.getWhoClicked();
         PlayerManager playerManager = PlayerManager.getPlayerManagers().get(player.getUniqueId());
         if (inventory.getName().equals("§6Spectate") && (playerManager.getPlayerSatus() == PlayerSatus.SPECTATE || playerManager.getPlayerSatus() == PlayerSatus.FREE)) {
+            e.setCancelled(true);
             if (current.getType() == Material.ARROW && current.getItemMeta().getDisplayName().equals("§6Next page") && current.getItemMeta().hasLore()) {
                 String str = current.getItemMeta().getLore().get(0).substring(7);
                 Practice.getInstance().spectateGui.open(player, Integer.parseInt(str));
@@ -86,21 +87,12 @@ public class ClickEvent implements Listener {
                         player.sendMessage("§cThe target player is not connected!");
                     }
                 } else if (inventory.getName().equals("§6Panel")) {
-                    if (current.getType() == Material.LEASH && current.getItemMeta().getDisplayName().equals("§eTeam")) {
-                        player.closeInventory();
-                        new PartyManager(playerManager, player);
-                    } else if (current.getType() == Material.FERMENTED_SPIDER_EYE && current.getItemMeta().getDisplayName().equals("§eSettings")) {
+                    if (current.getType() == Material.REDSTONE_COMPARATOR && current.getItemMeta().getDisplayName().equals("§eSettings")) {
                         player.openInventory(playerManager.getSettingsGui());
                     } else if (current.getType() == Material.BREWING_STAND_ITEM && current.getItemMeta().getDisplayName().equals("§eStatistics")) {
                         player.openInventory(playerManager.getStatsGui());
-                    } else if (current.getType() == Material.BOOK && current.getItemMeta().getDisplayName().equals("§eEditor")) {
-                        player.openInventory(Practice.getInstance().editorGui.inventory());
-                    } else if (current.getType() == Material.EMERALD && current.getItemMeta().getDisplayName().equals("§eQuests")) {
-                        Inventory quest = Gui.clone(Practice.getInstance().questGui);
-                        for (Quest questt : Quest.all) {
-                            quest.addItem(questt.iconItem());
-                        }
-                        player.openInventory(quest);
+                    }else if (current.getType() == Material.EMERALD && current.getItemMeta().getDisplayName().equals("§eLeaderboard")) {
+                        player.openInventory(Practice.getInstance().leaderboardInventory);
                     }
                 } else if (inventory.getName().equals("§6§lSettings")) {
                     int setting = Setting.getSettingsBySlot(e.getSlot());

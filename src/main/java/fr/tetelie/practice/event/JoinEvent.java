@@ -18,6 +18,8 @@ public class JoinEvent implements Listener {
         //e.setJoinMessage("§7[§6+§7] §e"+player.getName());
         e.setJoinMessage(null);
         PlayerManager playerManager = new PlayerManager(player.getUniqueId(), player.getName());
+        playerManager.hideFromAll(player);
+        playerManager.hideAll(player);
         Setting.all[0].change(player, playerManager.getSettings()[0]);
         playerManager.reset(player, GameMode.SURVIVAL);
         playerManager.teleport(player, Practice.getInstance().spawn);

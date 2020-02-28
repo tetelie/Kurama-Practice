@@ -190,6 +190,8 @@ public class MatchManager {
                     player2.sendMessage(eloChangeMessage);
                     playerManager2.getElos()[ladder.id()] = playerManager2.getElos()[ladder.id()]+eloChange;
                     playerManager.getElos()[ladder.id()] = playerManager.getElos()[ladder.id()]-eloChange;
+                    playerManager.saveElo();
+                    playerManager2.saveElo();
                 }
 
 

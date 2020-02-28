@@ -92,8 +92,8 @@ public class Ranked {
                 }
                 ranked_time++;
                 System.out.println(player.getName()+" , "+active);
-                if((ranked_time % 4) != 0) return;
-                if(ranked_time == 4)
+                if((ranked_time % 5) != 0) return;
+                if(ranked_time == 5)
                 {
                     setMax_range(max_range+40);
                     if(min_range-40 >= 0) setMin_range(min_range-40);

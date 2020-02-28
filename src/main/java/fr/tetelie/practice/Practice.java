@@ -21,11 +21,13 @@ import fr.tetelie.practice.gui.models.SettingsGui;
 import fr.tetelie.practice.gui.models.StatsGui;
 import fr.tetelie.practice.inventory.FightInventory;
 import fr.tetelie.practice.inventory.Kit;
+import fr.tetelie.practice.inventory.LeaderboardInventory;
 import fr.tetelie.practice.inventory.MatchPreviewInventory;
 import fr.tetelie.practice.inventory.inventories.*;
 import fr.tetelie.practice.ladder.Ladder;
 import fr.tetelie.practice.ladder.ladders.Debuff;
 import fr.tetelie.practice.ladder.ladders.NoDebuff;
+import fr.tetelie.practice.leaderboard.Leaderboard;
 import fr.tetelie.practice.match.MatchManager;
 import fr.tetelie.practice.match.MatchType;
 import fr.tetelie.practice.mysql.PracticeDB;
@@ -109,15 +111,18 @@ public @Getter class Practice extends JavaPlugin {
 
     //Thread
     public Thread fightInventory;
-    public Thread rankedMatchmaking;
+    public Thread LeaderboardThread;
 
     // Inventories
     public Inventory normalFight;
     public Inventory competitiveFight;
+    public Inventory leaderboardInventory;
 
     public DateFormat mediumDateFormatEN = DateFormat.getDateTimeInstance(
             DateFormat.MEDIUM,
             DateFormat.MEDIUM, new Locale("EN","en"));
+
+    public Leaderboard leaderboard = new Leaderboard();
 
     @Override
     public void onEnable() {
@@ -242,8 +247,8 @@ public @Getter class Practice extends JavaPlugin {
         fightInventory = new Thread(new FightInventory());
         fightInventory.start();
 
-        //rankedMatchmaking = new Thread(new Ranked());
-        //rankedMatchmaking.start();
+        LeaderboardThread = new Thread(new LeaderboardInventory());
+        LeaderboardThread.start();
     }
 
     private void registerRankedTask()

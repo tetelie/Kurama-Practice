@@ -27,9 +27,12 @@ import org.bukkit.potion.PotionEffect;
 import java.sql.SQLException;
 import java.util.*;
 
-public @Getter @Setter class PlayerManager {
+public @Getter
+@Setter
+class PlayerManager {
 
-    static @Getter Map<UUID, PlayerManager> playerManagers;
+    static @Getter
+    Map<UUID, PlayerManager> playerManagers;
 
 
     private UUID uuid;
@@ -50,13 +53,11 @@ public @Getter @Setter class PlayerManager {
     private String ladder;
     private FightType fightType;
 
-    static
-    {
+    static {
         playerManagers = new HashMap<>();
     }
 
-    public PlayerManager(UUID uuid, String name)
-    {
+    public PlayerManager(UUID uuid, String name) {
         this.uuid = uuid;
         this.name = name;
 
@@ -65,78 +66,78 @@ public @Getter @Setter class PlayerManager {
         playerManagers.put(uuid, this);
     }
 
-    private boolean exist()
-    {
+    private boolean exist() {
         return Practice.getInstance().practiceDB.existPlayerManager(uuid);
     }
 
-    private void update(){
-        if(!exist()) {
+    private void update() {
+        if (!exist()) {
             login = Practice.getInstance().mediumDateFormatEN.format(new Date());
             Practice.getInstance().practiceDB.createPlayerManager(uuid, name, login); // insert new table
-        }else{
+        } else {
             Practice.getInstance().practiceDB.updatePlayerManager(name, uuid); // update name in corresponding uuid table
             load(); // load all mysql data
         }
     }
 
-    private void load(){
+    private void load() {
         try {
             login = DB.getFirstRow("SELECT login FROM player_manager WHERE name=?", name).getString("login");
             settings = getSplitValue(DB.getFirstRow("SELECT settings FROM player_manager WHERE name=?", name).getString("settings"), ":");
             stats = getSplitValue(DB.getFirstRow("SELECT stats FROM player_manager WHERE name=?", name).getString("stats"), ":");
             fightpass = DB.getFirstRow("SELECT fight_pass FROM player_manager WHERE name=?", name).getInt("fight_pass");
             elos = getSplitValue(DB.getFirstRow("SELECT elos FROM player_manager WHERE name=?", name).getString("elos"), ":");
-        }catch (SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private void save(){
-        try{
+    private void save() {
+        try {
             String settings = getStringValue(this.settings, ":");
             DB.executeUpdate("UPDATE player_manager SET settings=? WHERE name=?", settings, name);
             String stats = getStringValue(this.stats, ":");
             DB.executeUpdate("UPDATE player_manager SET stats=? WHERE name=?", stats, name);
-            String elos = getStringValue(this.elos, ":");
-            DB.executeUpdate("UPDATE player_manager SET elos=? WHERE name=?", elos, name);
-        }catch (SQLException e)
-        {
+            saveElo();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void setSettings(int index, int value)
-    {
-        if(this.settings[index] != value) this.settings[index] = value;
+    public void saveElo() {
+        try {
+            String elos = getStringValue(this.elos, ":");
+            DB.executeUpdate("UPDATE player_manager SET elos=? WHERE name=?", elos, name);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    private int[] getSplitValue(String string, String spliter)
-    {
+    public void setSettings(int index, int value) {
+        if (this.settings[index] != value) this.settings[index] = value;
+    }
+
+    public static int[] getSplitValue(String string, String spliter) {
         String[] split = string.split(spliter);
         int[] board = new int[split.length];
 
-        for(int i = 0; i <= split.length-1; i++)
-        {
+        for (int i = 0; i <= split.length - 1; i++) {
             board[i] = Integer.parseInt(split[i]);
         }
         return board;
     }
 
-    private String getStringValue(int[] board, String spliter)
-    {
+    public static String getStringValue(int[] board, String spliter) {
         StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 0; i <= board.length-1; i++)
-        {
+        for (int i = 0; i <= board.length - 1; i++) {
             stringBuilder.append(board[i]);
-            if(i != board.length-1) stringBuilder.append(spliter);
+            if (i != board.length - 1) stringBuilder.append(spliter);
         }
         return stringBuilder.toString();
     }
 
-    public void sendKit(Kit kit)
-    {
+    public void sendKit(Kit kit) {
         Player player = Bukkit.getPlayer(uuid);
         player.getInventory().clear();
         player.getInventory().setContents(kit.content());
@@ -144,12 +145,10 @@ public @Getter @Setter class PlayerManager {
         player.updateInventory();
     }
 
-    public void teleport(Player player, LocationHelper locationHelper)
-    {
-        if(locationHelper == null || locationHelper.getLocation() == null)
-        {
+    public void teleport(Player player, LocationHelper locationHelper) {
+        if (locationHelper == null || locationHelper.getLocation() == null) {
             player.sendMessage("§cYou can't be teleported because this location is not set!");
-        }else{
+        } else {
             player.teleport(locationHelper.getLocation());
         }
     }
@@ -178,9 +177,8 @@ public @Getter @Setter class PlayerManager {
         player.setFlying(false);
     }
 
-    public void spectate(Player player, MatchManager matchManager)
-    {
-        if(matchManager.getMatchStatus() != MatchStatus.FINISHING) {
+    public void spectate(Player player, MatchManager matchManager) {
+        if (matchManager.getMatchStatus() != MatchStatus.FINISHING) {
             Player p1 = Bukkit.getPlayer(matchManager.getUuid1());
             Player p2 = Bukkit.getPlayer(matchManager.getUuid2());
             if (playerSatus == PlayerSatus.FREE) sendKit(Practice.getInstance().spectateKit);
@@ -206,99 +204,84 @@ public @Getter @Setter class PlayerManager {
             player.setAllowFlight(true);
             player.setFlying(true);
             player.teleport(p1.getLocation().add(0, 2, 0));
-        }else{
+        } else {
             player.sendMessage("§cSorry but this match is ended!");
         }
 
     }
 
-    public void unSpectate(Player player, boolean msg)
-    {
-        if(MatchManager.getMatchManagerBySpectator(player.getUniqueId()) != null) {
+    public void unSpectate(Player player, boolean msg) {
+        if (MatchManager.getMatchManagerBySpectator(player.getUniqueId()) != null) {
             MatchManager old = MatchManager.getMatchManagerBySpectator(this.uuid);
             Player p1 = Bukkit.getPlayer(old.getUuid1());
             Player p2 = Bukkit.getPlayer(old.getUuid2());
-            if(msg)old.sendGlobalMessage("§6" + player.getName() + " §7is no longer spectating your match!", p1, p2);
-            if(old.getSpecs().contains(player.getUniqueId())) old.getSpecs().remove(player.getUniqueId());
+            if (msg) old.sendGlobalMessage("§6" + player.getName() + " §7is no longer spectating your match!", p1, p2);
+            if (old.getSpecs().contains(player.getUniqueId())) old.getSpecs().remove(player.getUniqueId());
         }
     }
 
-    public void queue(String ladder, FightType fightType)
-    {
+    public void queue(String ladder, FightType fightType) {
         this.ladder = ladder;
         this.fightType = fightType;
-        if(fightType == FightType.COMPETITIVE)
-        {
+        if (fightType == FightType.COMPETITIVE) {
             Practice.getInstance().fight.get(ladder).getRankedQueuePlayer().add(this);
-        }else{
+        } else {
             Practice.getInstance().fight.get(ladder).setNormalQueuePlayer(uuid);
         }
     }
 
-    public void leaveQueue()
-    {
+    public void leaveQueue() {
         FightManager fightManager = Practice.getInstance().fight.get(ladder);
-            System.out.println(fightType);
-            if(fightType == FightType.COMPETITIVE)
-            {
-                ranked.stop();
-                if(fightManager.getRankedQueuePlayer().contains(this)) {
-                    fightManager.getRankedQueuePlayer().remove(this);
-                }
-            }else {
-                if (fightManager != null && fightManager.getNormalQueuePlayer() != null && fightManager.getNormalQueuePlayer() == this.uuid){
-                    fightManager.setNormalQueuePlayer(null);
-                }
+        System.out.println(fightType);
+        if (fightType == FightType.COMPETITIVE) {
+            ranked.stop();
+            if (fightManager.getRankedQueuePlayer().contains(this)) {
+                fightManager.getRankedQueuePlayer().remove(this);
             }
-            this.ladder = null;
-            this.fightType = null;
+        } else {
+            if (fightManager != null && fightManager.getNormalQueuePlayer() != null && fightManager.getNormalQueuePlayer() == this.uuid) {
+                fightManager.setNormalQueuePlayer(null);
+            }
+        }
+        this.ladder = null;
+        this.fightType = null;
     }
 
-    public void removeDuel()
-    {
-        if(DuelManager.getDuelBySender(uuid) != null) DuelManager.getDuelBySender(uuid).destroy();
-        if(DuelManager.getDuelByReciever(uuid) != null) DuelManager.getDuelByReciever(uuid).destroy();
+    public void removeDuel() {
+        if (DuelManager.getDuelBySender(uuid) != null) DuelManager.getDuelBySender(uuid).destroy();
+        if (DuelManager.getDuelByReciever(uuid) != null) DuelManager.getDuelByReciever(uuid).destroy();
     }
 
-    public void removePreviewInventory()
-    {
-        if(Practice.getInstance().matchPreviewInventoryMap.containsKey(uuid)) Practice.getInstance().matchPreviewInventoryMap.get(uuid).destroy();
+    public void removePreviewInventory() {
+        if (Practice.getInstance().matchPreviewInventoryMap.containsKey(uuid))
+            Practice.getInstance().matchPreviewInventoryMap.get(uuid).destroy();
     }
 
-    public void hideAll(Player player)
-    {
-        for(Player p : Bukkit.getOnlinePlayers())
-        {
+    public void hideAll(Player player) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
             player.hidePlayer(p);
         }
     }
 
-    public void hideFromAll(Player player)
-    {
-        for(Player p : Bukkit.getOnlinePlayers())
-        {
+    public void hideFromAll(Player player) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
             p.hidePlayer(player);
         }
     }
 
-    public void showAll(Player player)
-    {
-        for(Player p : Bukkit.getOnlinePlayers())
-        {
+    public void showAll(Player player) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
             player.showPlayer(p);
         }
     }
 
-    public void showFromAll(Player player)
-    {
-        for(Player p : Bukkit.getOnlinePlayers())
-        {
+    public void showFromAll(Player player) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
             p.showPlayer(player);
         }
     }
 
-    public ItemStack changeLore(ItemStack item, String... lore)
-    {
+    public ItemStack changeLore(ItemStack item, String... lore) {
         ItemMeta meta = item.getItemMeta();
         meta.getLore().clear();
         meta.setLore(Arrays.asList(lore));
@@ -307,29 +290,24 @@ public @Getter @Setter class PlayerManager {
     }
 
     // stats
-    public Inventory getStatsGui()
-    {
+    public Inventory getStatsGui() {
         String normal_win_chance = "-";
-        if(stats[0] > 0)
-        {
-            if(stats[1] == 0)
-            {
+        if (stats[0] > 0) {
+            if (stats[1] == 0) {
                 normal_win_chance = "100%";
-            }else {
-                double rate = (double)stats[0]/((double)stats[0]+(double)stats[1]);
-                normal_win_chance = rate*100 + "%";
+            } else {
+                double rate = (double) stats[0] / ((double) stats[0] + (double) stats[1]);
+                normal_win_chance = rate * 100 + "%";
             }
         }
 
         String competitive_win_chance = "-";
-        if(stats[2] > 0)
-        {
-            if(stats[3] == 0)
-            {
+        if (stats[2] > 0) {
+            if (stats[3] == 0) {
                 competitive_win_chance = "100%";
-            }else {
+            } else {
                 if (stats[2] >= stats[3]) {
-                    competitive_win_chance = (double)stats[2]/((double)stats[2]+(double)stats[3]) + "%";
+                    competitive_win_chance = (double) stats[2] / ((double) stats[2] + (double) stats[3]) + "%";
                 } else {
                     competitive_win_chance = "0%";
                 }
@@ -342,7 +320,7 @@ public @Getter @Setter class PlayerManager {
                 "§eWin§7: " + this.stats[0],
                 "§eLose§7: " + this.stats[1],
                 "§eWin Chance§7: " + normal_win_chance
-                );
+        );
 
         changeLore(stats.getItem(16),
                 "§eWin§7: " + this.stats[2],
@@ -354,15 +332,13 @@ public @Getter @Setter class PlayerManager {
     }
 
     // settings
-    public Inventory getSettingsGui()
-    {
+    public Inventory getSettingsGui() {
         Inventory settings = Gui.clone(Practice.getInstance().settingsGui);
         refreshSettingsLoreGui(settings);
         return settings;
     }
 
-    public void refreshSettingLore(Inventory settingInv, int slot, int setting)
-    {
+    public void refreshSettingLore(Inventory settingInv, int slot, int setting) {
         ItemStack item = settingInv.getItem(slot);
         ItemMeta meta = item.getItemMeta();
         meta.getLore().clear();
@@ -374,18 +350,15 @@ public @Getter @Setter class PlayerManager {
         item.setItemMeta(meta);
     }
 
-    private void refreshSettingsLoreGui(Inventory settingsInv)
-    {
+    private void refreshSettingsLoreGui(Inventory settingsInv) {
         int setting = 0;
-        for(Setting settings : Setting.all)
-        {
+        for (Setting settings : Setting.all) {
             refreshSettingLore(settingsInv, settings.slot(), setting);
             setting++;
         }
     }
 
-    private String[] getSettingLore(int id)
-    {
+    private String[] getSettingLore(int id) {
         int value = this.settings[id];
         Setting setting = Setting.all[id];
         String[] lore = setting.values();
@@ -393,16 +366,14 @@ public @Getter @Setter class PlayerManager {
         return lore;
     }
 
-    public void changeSettings(int setting, Player player)
-    {
+    public void changeSettings(int setting, Player player) {
         int currentValue = this.settings[setting];
-        int newValue = Setting.all[setting].values().length <= currentValue+1 ? 0 : this.settings[setting] + 1;
+        int newValue = Setting.all[setting].values().length <= currentValue + 1 ? 0 : this.settings[setting] + 1;
         this.settings[setting] = newValue;
         Setting.all[setting].change(player, newValue);
     }
 
-    public void destroy()
-    {
+    public void destroy() {
         leaveQueue();
         removeDuel();
         save(); // save all local data in database
@@ -410,8 +381,7 @@ public @Getter @Setter class PlayerManager {
         playerManagers.remove(uuid);
     }
 
-    public Ranked getRanked()
-    {
+    public Ranked getRanked() {
         return this.ranked;
     }
 
