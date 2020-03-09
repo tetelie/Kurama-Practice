@@ -63,12 +63,10 @@
             <scope>provided</scope>
         </dependency>
 
-
         <dependency>
-            <groupId>com.sathonay</groupId>
-            <artifactId>MinecraftServer</artifactId>
-            <version>1.7.10-SNAPSHOT</version>
-            <scope>provided</scope>
+            <groupId>com.sathonay.npaper</groupId>
+            <artifactId>npaper</artifactId>
+            <version>1.7.10-R0.1-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

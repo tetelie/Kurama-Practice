@@ -160,9 +160,7 @@ class PlayerManager {
         player.getInventory().setLeggings(new ItemStack(Material.AIR));
         player.getInventory().setBoots(new ItemStack(Material.AIR));
         player.updateInventory();
-        for (PotionEffect effect : player.getActivePotionEffects()) {
-            player.removePotionEffect(effect.getType());
-        }
+        player.clearPotionEffects();
         player.setMaximumNoDamageTicks(20);
         player.setNoDamageTicks(20);
         player.setHealthScale(20.0);
@@ -170,7 +168,7 @@ class PlayerManager {
         player.setHealth(20.0);
         player.setFoodLevel(20);
         player.setLevel(0);
-        player.setFireTicks(0);
+        player.extinguish();
         player.setSaturation(10);
         player.setGameMode(gameMode);
         player.setAllowFlight(false);
